@@ -21,6 +21,7 @@ public class SkeletonAnimation : MonoBehaviour
     {
         //Flip sprite if mouse is to the left of the character so the sprite faces the right way
         bodySprite.flipX = input.mousePositionInput.x < transform.position.x;
+        bodySprite.sortingOrder = Mathf.RoundToInt(transform.position.y * -1000);
         //Set move animator float based on move input
         bodyAnim.SetFloat("Move", input.moveInput.magnitude);
     }

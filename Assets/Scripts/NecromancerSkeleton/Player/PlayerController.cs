@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
         controls.Player.Aim.Enable();
 
         controls.Player.PrimaryAction.performed += ctx => HandlePrimaryAction(ctx.ReadValue<float>());
+        controls.Player.PrimaryAction.canceled += ctx => HandlePrimaryAction(ctx.ReadValue<float>());
         controls.Player.PrimaryAction.Enable();
 
         controls.Player.SecondaryAction.performed += ctx => HandleSecondaryAction(ctx.ReadValue<float>());
+        controls.Player.SecondaryAction.canceled += ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.Enable();
     }
 
@@ -41,9 +43,11 @@ public class PlayerController : MonoBehaviour
         controls.Player.Aim.Disable();
 
         controls.Player.PrimaryAction.performed -= ctx => HandlePrimaryAction(ctx.ReadValue<float>());
+        controls.Player.PrimaryAction.canceled -= ctx => HandlePrimaryAction(ctx.ReadValue<float>());
         controls.Player.PrimaryAction.Disable();
 
         controls.Player.SecondaryAction.performed -= ctx => HandleSecondaryAction(ctx.ReadValue<float>());
+        controls.Player.SecondaryAction.canceled -= ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.Disable();
     }
     #region Input Handle Methods
@@ -55,11 +59,17 @@ public class PlayerController : MonoBehaviour
 
     private void HandlePrimaryAction(float input)
     {
-        skeletonInput.actionOneInput = input;
+        if (input > 0)
+            skeletonInput.MainPress();
+        else
+            skeletonInput.MainRelease();
     }
     private void HandleSecondaryAction(float input)
     {
-        skeletonInput.actionTwoInput = input;
+        if (input > 0)
+            skeletonInput.OffPress();
+        else
+            skeletonInput.OffRelease();
     }
     private void HandleAim(Vector2 input)
     {
@@ -83,5 +93,5 @@ public class PlayerController : MonoBehaviour
             mainCamera = Camera.main;
     }
 
-   
+
 }

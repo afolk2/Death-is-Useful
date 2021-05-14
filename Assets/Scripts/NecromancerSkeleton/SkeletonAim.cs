@@ -7,13 +7,22 @@ using UnityEngine;
 public class SkeletonAim : MonoBehaviour
 {
     private SkeletonKit kit;
+    private Vector2 aim;
+    public Vector2 Aim
+    {
+        get
+        {
+            return aim;
+        }
+    }
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         kit = GetComponentInChildren<SkeletonKit>();
     }
-    public void Aim(Vector2 mousePos)
+    public void DoAim(Vector2 mousePos)
     {
-        kit.ItemAim(mousePos - new Vector2(transform.position.x, transform.position.y), mousePos.x < transform.position.x);
+        aim = mousePos - new Vector2(transform.position.x, transform.position.y);
+        kit.ItemAim(aim, mousePos.x < transform.position.x);
     }
 }

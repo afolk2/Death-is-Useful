@@ -800,7 +800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainHandTransform: {fileID: 6578303969416752653}
   offHandTransform: {fileID: 5804476788413402325}
-  aimStretch: 0.5
+  aimStretch: 0.3
   mainBaseOffset: {x: 0.1, y: 0}
   offBaseOffset: {x: -0.1, y: 0}
   idle: 1

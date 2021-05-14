@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "PrimaryAction",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "6f0db861-4605-4b11-a8d9-9b467a1d0b73",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -23,7 +23,7 @@
                 },
                 {
                     "name": "SecondaryAction",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "de0a179a-65db-4555-bd16-aad08427712e",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -31,7 +31,7 @@
                 },
                 {
                     "name": "Trinket",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "43243d25-1bc8-4e96-88a7-49f9f59ee6ad",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -39,7 +39,7 @@
                 },
                 {
                     "name": "CommandOne",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "fc66a5c7-bcd7-4657-9df9-1ca14e5ad187",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -47,7 +47,7 @@
                 },
                 {
                     "name": "CommandTwo",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "81ca5f41-2eeb-4a6d-ae4a-eeae5f011db7",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -55,7 +55,7 @@
                 },
                 {
                     "name": "CommandThree",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "09b71cc4-8644-4c8f-90e5-179b597465d9",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -63,7 +63,7 @@
                 },
                 {
                     "name": "CommandFour",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "0ae7abb7-851c-43b6-a001-f33b9c08132d",
                     "expectedControlType": "Button",
                     "processors": "",
