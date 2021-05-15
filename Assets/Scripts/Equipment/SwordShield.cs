@@ -6,8 +6,8 @@ public class SwordShield : Kit
 {
     [Header("-- Sword Stats --")]
     [SerializeField] private int damage;
-    [SerializeField] private int arc;
-    [SerializeField] private int reach;
+    [SerializeField] private float arc;
+    [SerializeField] private float reach;
     [SerializeField] private float swingTime;
     [SerializeField] private float anticipationTime;
     [SerializeField] private float recoveryTime;

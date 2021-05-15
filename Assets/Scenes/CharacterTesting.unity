@@ -2665,7 +2665,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6173590597708440882, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_PointLightDistance
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6173590597708440882, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_PointLightInnerRadius
@@ -9364,11 +9364,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: arc
-      value: 180
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: reach
-      value: 10
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: damage
@@ -9376,11 +9376,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: swingTime
-      value: 0.2
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: recoveryTime
-      value: 0.1
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: blockStrength
@@ -9388,11 +9388,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: anticipationTime
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: mainHand.itemDoesAim
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}

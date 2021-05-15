@@ -109,12 +109,12 @@ public class SkeletonKit : MonoBehaviour
     public void StartMeleeAttack(Vector2 aim, float arcValue, float reach, float anticipationTime, float swingTime, float recoveryTime, bool swingSwap, bool useMain)
     {
         //Set Angle at the top (this locks the aim for the attack)
-        float angle = -90 + Mathf.Atan2(aim.normalized.y, aim.normalized.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(aim.normalized.y, aim.normalized.x) * Mathf.Rad2Deg;
         //Get the starting and end angles of the swing. Swap the values if making a back swing with the weapon
         float startAng = swingSwap ? angle - (arcValue / 2) : angle + (arcValue / 2);
         float endAng = swingSwap ? angle + (arcValue / 2) : angle - (arcValue / 2);
 
-
+        StopCoroutine("SwingMelee");
         StartCoroutine(SwingMelee(startAng, endAng, reach, anticipationTime, swingTime, recoveryTime, useMain));
     }
 
@@ -126,17 +126,18 @@ public class SkeletonKit : MonoBehaviour
             Vector3 startPos = mainHand.handTransform.localPosition;
             float startRot = mainHand.handTransform.localEulerAngles.z;
 
-            LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(start), anticipationTime);
-            LeanTween.rotateZ(mainHand.handObject, start, anticipationTime);
+            LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(start, reach), anticipationTime);
+            LeanTween.rotateZ(mainHand.handObject, start - 90, anticipationTime);
             yield return new WaitForSeconds(anticipationTime);
 
             //Activate weapon trail
 
-            LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(end), swingTime);
-            LeanTween.rotateZ(mainHand.handObject, end, swingTime);
+            LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(end, reach), swingTime);
+            LeanTween.rotateZ(mainHand.handObject, end - 90, swingTime);
 
             yield return new WaitForSeconds(swingTime);
             // end swing
+            idle = true;
 
             LeanTween.moveLocal(mainHand.handObject, startPos, recoveryTime);
             LeanTween.rotateZ(mainHand.handObject, startRot, recoveryTime);
@@ -148,23 +149,25 @@ public class SkeletonKit : MonoBehaviour
             Vector3 startPos = offHand.handTransform.localPosition;
             float startRot = offHand.handTransform.localEulerAngles.z;
 
-            offHand.handTransform.localPosition = MathHelpers.DegreeToVector2(start);
-            offHand.handTransform.localEulerAngles = new Vector3(0, 0, start);
-
+            LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(start, reach), anticipationTime);
+            LeanTween.rotateZ(offHand.handObject, start - 90, anticipationTime);
+            yield return new WaitForSeconds(anticipationTime);
             //Activate weapon trail
 
-            LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(end), swingTime);
-            LeanTween.rotateZ(offHand.handObject, end, swingTime);
+            LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(end, reach), swingTime);
+            LeanTween.rotateZ(offHand.handObject, end -90, swingTime);
 
             yield return new WaitForSeconds(swingTime);
             // end swing
+
+            idle = true;
 
             LeanTween.moveLocal(offHand.handObject, startPos, recoveryTime);
             LeanTween.rotateZ(offHand.handObject, startRot, recoveryTime);
 
             yield return new WaitForSeconds(recoveryTime);
         }
-        idle = true;
+        
     }
 
     /// <summary>
