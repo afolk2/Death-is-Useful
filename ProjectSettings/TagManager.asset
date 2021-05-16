@@ -53,3 +53,6 @@ TagManager:
   - name: Walls
     uniqueID: 1060967083
     locked: 0
+  - name: Ambience
+    uniqueID: 2520503049
+    locked: 0
