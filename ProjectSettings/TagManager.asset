@@ -11,11 +11,11 @@ TagManager:
   - PostProcessing
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Minions
+  - Enemies
+  - Items
+  - Wall
   - 
   - 
   - 

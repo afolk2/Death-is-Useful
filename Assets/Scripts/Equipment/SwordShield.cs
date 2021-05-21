@@ -4,42 +4,60 @@ using UnityEngine;
 
 public class SwordShield : Kit
 {
-    [Header("-- Sword Stats --")]
+    [Header("-- Sword Attack Stats --")]
     [SerializeField] private int damage;
-    [SerializeField] private float arc;
     [SerializeField] private float reach;
     [SerializeField] private float swingTime;
-    [SerializeField] private float anticipationTime;
-    [SerializeField] private float recoveryTime;
+
+    [SerializeField] private LayerMask hitMask;
+
+    [Header("-- Shield Block Stats --")]
     [SerializeField] private int blockStrength;
+    [SerializeField] private float blockArc;
+    [SerializeField] private float counterTime;
+    [SerializeField] private float shieldStretch;
 
     private bool backSlash;
+    private bool blocking;
     public override void MainAction(EquipmentManager m)
     {
-        if(m.skeletonKit.idle)
+        if (m.skeletonKit.idle && !blocking)
         {
-            m.skeletonKit.StartMeleeAttack(m.skeletonAim.Aim, arc, reach, anticipationTime, swingTime, recoveryTime, backSlash, true);
+            m.skeletonKit.SimpleMelee(damage, reach, swingTime, mainHand, hitMask, backSlash, true);
             backSlash = !backSlash;
         }
-            
+
     }
 
     public override void MainRelease(EquipmentManager m)
     {
-        
+        // This Item does not have a release action
     }
 
     public override void SecondaryAction(EquipmentManager m)
     {
-        //Switch hand and held item to block sprite (sideways shield)
-
-        //Emit a block area around player (rounded shield collider)
-
-        //Reduce block health while this action is held and hit. (maybe need ui to show how many block the player has remaining)
+        if (m.skeletonKit.idle || !blocking)
+        {
+            blocking = true;
+            m.skeletonKit.Block(blockStrength, blockArc, counterTime, shieldStretch, mainHand, offHand);
+        }
+            
     }
 
     public override void SecondaryRelease(EquipmentManager m)
     {
-        
+        blocking = false;
+        m.skeletonKit.StopBlock(mainHand, offHand);
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(transform.position, reach);
+    }
+
+#endif
+
 }

@@ -20,6 +20,8 @@ public class SkeletonKit : MonoBehaviour
     }
     private Hand mainHand, offHand;
 
+
+
     /// <summary>
     /// Manages the sprite sorting layers of the hands and their item sprites
     /// </summary>
@@ -34,11 +36,18 @@ public class SkeletonKit : MonoBehaviour
     /// <summary>
     /// Adjusts the scale of the stretching the arms of the creature based on the distance of their aim.
     /// </summary>
-    [SerializeField] private float aimStretch;
+    [SerializeField] private float baseAimStretch;
+    private float currentAimStretch;
+
+    
+
     /// <summary>
     /// The base offset for each of the hands on the creature.
     /// </summary>
     [SerializeField] private Vector2 mainBaseOffset, offBaseOffset;
+
+   
+
     /// <summary>
     /// The current offset, defaults to the values above, but otherwise will be set by the current item kit.
     /// </summary>
@@ -64,6 +73,8 @@ public class SkeletonKit : MonoBehaviour
 
         mainCurrentOffset = mainBaseOffset;
         offCurrentOffset = offBaseOffset;
+
+        currentAimStretch = baseAimStretch;
     }
     /// <summary>
     /// Called by Skeleton Aim
@@ -79,7 +90,7 @@ public class SkeletonKit : MonoBehaviour
             //if not adjust the idle position of each hand. Fliping along the x if the creatures aim is to the left of them. Since the primary hand will want to be on that side instead.
 
             float mainX = mainCurrentOffset.x * (leftSideAim ? -1f : 1f);
-            mainHand.handTransform.localPosition = new Vector2(mainX, mainCurrentOffset.y) + aim.normalized * (Mathf.InverseLerp(0, 5, aim.magnitude) * aimStretch); // < Multiply stretch based on aim magnitude
+            mainHand.handTransform.localPosition = new Vector2(mainX, mainCurrentOffset.y) + aim.normalized * (Mathf.InverseLerp(0, 5, aim.magnitude) * currentAimStretch); // < Multiply stretch based on aim magnitude
             // If an aiming item (like a staff or bow) then rotate hand to point at aim
             if (mainHand.doesItemPoint)
             {
@@ -93,7 +104,7 @@ public class SkeletonKit : MonoBehaviour
 
             //Repeat as above, but subtract the aim and apply aimStretch at half strength. Maybe off hand shouldn't stretch at all.
             float offX = offCurrentOffset.x * (leftSideAim ? -1f : 1f);
-            offHand.handTransform.localPosition = new Vector2(offX, offCurrentOffset.y) - aim.normalized * (Mathf.InverseLerp(0, 5, aim.magnitude) * aimStretch / 2);
+            offHand.handTransform.localPosition = new Vector2(offX, offCurrentOffset.y) - aim.normalized * (Mathf.InverseLerp(0, 5, aim.magnitude) * currentAimStretch / 2);
             // If an aiming item (like a staff or bow) then rotate hand to point at aim
             if (offHand.doesItemPoint)
             {
@@ -105,6 +116,82 @@ public class SkeletonKit : MonoBehaviour
         }
     }
 
+    public void SimpleMelee(int damage, float reach, float swingTime, Kit.ItemData itemData, LayerMask hitMask, bool backSlash, bool isMain)
+    {
+        StopCoroutine("SimpleMelee");
+        StartCoroutine(SimpleMeleeSwing(damage, reach, swingTime, itemData, hitMask, backSlash, isMain));
+    }
+
+    private IEnumerator SimpleMeleeSwing(int damage, float reach, float swingTime, Kit.ItemData data, LayerMask hitMask, bool backSlash, bool isMain)
+    {
+        bool hit = false;
+        float t = 0;
+
+        while (t < swingTime)
+        {
+            if (!hit)
+            {
+                Collider2D[] hitObjects = Physics2D.OverlapCircleAll(mainHand.handTransform.position, reach, hitMask);
+                if (hitObjects.Length > 0)
+                {
+                    hit = true;
+                    for (int i = 0; i < hitObjects.Length; i++)
+                    {
+                        Debug.Log(hitObjects[i].name);
+                    }
+                }
+
+            }
+            mainHand.itemSprite.sprite = data.itemActiveSprite;
+            mainHand.itemSprite.flipX = backSlash;
+            t += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        mainHand.itemSprite.sprite = data.itemSprite;
+        mainHand.itemSprite.flipX = false;
+    }
+
+    public void Block(int blockStrength, float blockArc, float counterTime, float stretchOverride, Kit.ItemData mainData, Kit.ItemData offData)
+    {
+        //Switch hand and held item to block sprite (sideways shield)
+        mainHand.doesItemPoint = false;
+        offHand.doesItemPoint = true;
+        //Swap sprite for hands
+        mainHand.itemSprite.sprite = offData.itemActiveSprite;
+        offHand.itemSprite.sprite = mainData.itemSprite;
+        //Increase stretch to push shield further out
+        currentAimStretch = stretchOverride;
+
+        //Emit a block area around player (rounded shield collider)
+
+        //Reduce block health while this action is held and hit. (maybe need ui to show how many block the player has remaining)
+    }
+
+    private IEnumerator Blocking(int blockStrength, float blockArc, float counterTime)
+    {
+        float t = 0;
+        while(true)
+        {
+            if(t < counterTime)
+            {
+                //Check if Hit in this time window
+                t += Time.deltaTime;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    public void StopBlock(Kit.ItemData mainData, Kit.ItemData offData)
+    {
+        StopCoroutine("Blocking");
+
+        currentAimStretch = baseAimStretch;
+
+        mainHand.doesItemPoint = true;
+        offHand.doesItemPoint = false;
+        offHand.itemSprite.sprite = offData.itemSprite;
+    }
 
     public void StartMeleeAttack(Vector2 aim, float arcValue, float reach, float anticipationTime, float swingTime, float recoveryTime, bool swingSwap, bool useMain)
     {
@@ -118,29 +205,31 @@ public class SkeletonKit : MonoBehaviour
         StartCoroutine(SwingMelee(startAng, endAng, reach, anticipationTime, swingTime, recoveryTime, useMain));
     }
 
+
     private IEnumerator SwingMelee(float start, float end, float reach, float anticipationTime, float swingTime, float recoveryTime, bool useMain)
     {
+        LTDescr moveTween, rotTween;
         idle = false;
         if (useMain)
         {
             Vector3 startPos = mainHand.handTransform.localPosition;
             float startRot = mainHand.handTransform.localEulerAngles.z;
 
-            LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(start, reach), anticipationTime);
-            LeanTween.rotateZ(mainHand.handObject, start - 90, anticipationTime);
+            moveTween = LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(start, reach), anticipationTime);
+            rotTween = LeanTween.rotateZ(mainHand.handObject, start - 90, anticipationTime);
             yield return new WaitForSeconds(anticipationTime);
 
             //Activate weapon trail
 
-            LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(end, reach), swingTime);
-            LeanTween.rotateZ(mainHand.handObject, end - 90, swingTime);
+            moveTween = LeanTween.moveLocal(mainHand.handObject, MathHelpers.DegreeToVector2(end, reach), swingTime);
+            rotTween = LeanTween.rotateZ(mainHand.handObject, end - 90, swingTime);
 
             yield return new WaitForSeconds(swingTime);
             // end swing
             idle = true;
 
-            LeanTween.moveLocal(mainHand.handObject, startPos, recoveryTime);
-            LeanTween.rotateZ(mainHand.handObject, startRot, recoveryTime);
+            moveTween = LeanTween.moveLocal(mainHand.handObject, startPos, recoveryTime);
+            rotTween = LeanTween.rotateZ(mainHand.handObject, startRot, recoveryTime);
 
             yield return new WaitForSeconds(recoveryTime);
         }
@@ -149,25 +238,24 @@ public class SkeletonKit : MonoBehaviour
             Vector3 startPos = offHand.handTransform.localPosition;
             float startRot = offHand.handTransform.localEulerAngles.z;
 
-            LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(start, reach), anticipationTime);
-            LeanTween.rotateZ(offHand.handObject, start - 90, anticipationTime);
+            moveTween = LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(start, reach), anticipationTime);
+            rotTween = LeanTween.rotateZ(offHand.handObject, start - 90, anticipationTime);
             yield return new WaitForSeconds(anticipationTime);
             //Activate weapon trail
 
-            LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(end, reach), swingTime);
-            LeanTween.rotateZ(offHand.handObject, end -90, swingTime);
+            moveTween = LeanTween.moveLocal(offHand.handObject, MathHelpers.DegreeToVector2(end, reach), swingTime);
+            rotTween = LeanTween.rotateZ(offHand.handObject, end - 90, swingTime);
 
             yield return new WaitForSeconds(swingTime);
             // end swing
 
             idle = true;
 
-            LeanTween.moveLocal(offHand.handObject, startPos, recoveryTime);
-            LeanTween.rotateZ(offHand.handObject, startRot, recoveryTime);
+            moveTween = LeanTween.moveLocal(offHand.handObject, startPos, recoveryTime);
+            rotTween = LeanTween.rotateZ(offHand.handObject, startRot, recoveryTime);
 
             yield return new WaitForSeconds(recoveryTime);
         }
-        
     }
 
     /// <summary>

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3807826487628750264}
   - component: {fileID: 3807826487628750246}
   - component: {fileID: 3807826487628750265}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3807826487628750267}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 3807826488564878649}
   m_RootOrder: 0
@@ -111,7 +111,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3807826488032810165}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3807826488146205860}
   - component: {fileID: 3807826488146205861}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LeftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3807826488564878649}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3807826488760110935}
   - component: {fileID: 3807826488760110932}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SkeletonLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -332,7 +332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3807826488769113041}
   - component: {fileID: 3807826488769113054}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3807826489305845409}
   - component: {fileID: 3807826489305845422}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3807826489582916035}
   - component: {fileID: 3807826489582916032}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BodyCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
