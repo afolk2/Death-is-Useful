@@ -56,3 +56,6 @@ TagManager:
   - name: Ambience
     uniqueID: 2520503049
     locked: 0
+  - name: WorldUI
+    uniqueID: 636244469
+    locked: 0

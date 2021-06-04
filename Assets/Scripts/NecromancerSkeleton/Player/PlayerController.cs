@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
         controls.Player.SecondaryAction.performed += ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.canceled += ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.Enable();
+
+
+        controls.Player.Interact.performed += ctx => HandleInteractAction(ctx.ReadValue<float>());
     }
 
     private void OnDisable()
@@ -75,6 +78,12 @@ public class PlayerController : MonoBehaviour
     {
         skeletonInput.mousePositionInput = mainCamera.ScreenToWorldPoint(input);
     }
+
+    private void HandleInteractAction(float input)
+    {
+        if (input > 0)
+            necroInput.Interact();
+    }
     #endregion
 
     private void Awake()
@@ -84,7 +93,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     [SerializeField] private Camera mainCamera;
     private SkeletonInput skeletonInput;
-
+    private NecromancerInput necroInput;
     private void Start()
     {
         skeletonInput = GetComponent<SkeletonInput>();

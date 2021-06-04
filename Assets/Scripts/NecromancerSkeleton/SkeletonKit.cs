@@ -39,15 +39,15 @@ public class SkeletonKit : MonoBehaviour
     [SerializeField] private float baseAimStretch;
     private float currentAimStretch;
 
-    
+
 
     /// <summary>
     /// The base offset for each of the hands on the creature.
     /// </summary>
     [SerializeField] private Vector2 mainBaseOffset, offBaseOffset;
 
-   
-
+    private LineRenderer lineRenderer;
+    private EdgeCollider2D edgeCollider;
     /// <summary>
     /// The current offset, defaults to the values above, but otherwise will be set by the current item kit.
     /// </summary>
@@ -56,6 +56,7 @@ public class SkeletonKit : MonoBehaviour
     /// Simple bool to make sure the creature isn't using an action IE. Swinging a sword or casting.
     /// </summary>
     public bool idle = true;
+    public bool blocking = false;
 
     //Get all of the data and assign them to their respective struct. Reset the current offset to the base.
     private void Start()
@@ -70,6 +71,9 @@ public class SkeletonKit : MonoBehaviour
         this.offHand.itemSprite = offHandTransform.GetChild(0).GetComponent<SpriteRenderer>();
 
         kitSpriteManager = GetComponent<KitSprite>();
+
+        lineRenderer = GetComponent<LineRenderer>();
+        edgeCollider = GetComponent<EdgeCollider2D>();
 
         mainCurrentOffset = mainBaseOffset;
         offCurrentOffset = offBaseOffset;
@@ -152,44 +156,80 @@ public class SkeletonKit : MonoBehaviour
         mainHand.itemSprite.flipX = false;
     }
 
-    public void Block(int blockStrength, float blockArc, float counterTime, float stretchOverride, Kit.ItemData mainData, Kit.ItemData offData)
+    public void Block(int blockStrength, float blockArcWidth, float blockArcHeight, float counterTime, float stretchOverride, Kit.ItemData mainData, Kit.ItemData offData)
     {
         //Switch hand and held item to block sprite (sideways shield)
-        mainHand.doesItemPoint = false;
-        offHand.doesItemPoint = true;
+        mainHand.doesItemPoint = true;
+        offHand.doesItemPoint = false;
         //Swap sprite for hands
         mainHand.itemSprite.sprite = offData.itemActiveSprite;
         offHand.itemSprite.sprite = mainData.itemSprite;
         //Increase stretch to push shield further out
         currentAimStretch = stretchOverride;
 
-        //Emit a block area around player (rounded shield collider)
-
-        //Reduce block health while this action is held and hit. (maybe need ui to show how many block the player has remaining)
+        blocking = true;
+        //Activate blocking async process
+        StartCoroutine(Blocking(blockStrength, blockArcHeight, blockArcWidth, counterTime));
     }
 
-    private IEnumerator Blocking(int blockStrength, float blockArc, float counterTime)
+
+
+    private IEnumerator Blocking(int blockStrength, float blockArcHeight, float blockArcWidth, float counterTime)
     {
+        lineRenderer.enabled = true;
+        edgeCollider.enabled = true;
+
         float t = 0;
-        while(true)
+        while (blocking)
         {
-            if(t < counterTime)
+            if (t < counterTime)
             {
                 //Check if Hit in this time window
                 t += Time.deltaTime;
             }
+            //Emit a block area around player (rounded shield collider)
+            UpdateBlockArc(blockArcHeight, blockArcWidth, 10);
+
+            //Reduce block health while this action is held and hit. (maybe need ui to show how many block the player has remaining)
+
             yield return new WaitForEndOfFrame();
         }
     }
 
+    private void UpdateBlockArc(float height, float width, int lineRes)
+    {
+        lineRenderer.positionCount = lineRes + 1;
+        //Remember that sprites switch when blocking so Main hand is actually the shield hand during this.
+        Vector3 start = mainHandTransform.TransformPoint(-(width / 2), -(height / 2), 0);
+        Vector3 end = mainHandTransform.TransformPoint(width / 2, -(height / 2), 0);
+
+        List<Vector2> edgeTPoints = new List<Vector2>();
+        float t;
+        for (int i = 0; i <= lineRes; i++)
+        {
+            t = Mathf.InverseLerp(0f, lineRes, i);
+
+            Vector2 tPoint = MathHelpers.GetFreeParabolaPoint(start, end, height / 2, t, mainHandTransform.up);
+            edgeTPoints.Add(tPoint - new Vector2(transform.localPosition.x, transform.localPosition.y));
+            lineRenderer.SetPosition(i, tPoint);
+        }
+
+        edgeCollider.SetPoints(edgeTPoints);
+    }
+
     public void StopBlock(Kit.ItemData mainData, Kit.ItemData offData)
     {
-        StopCoroutine("Blocking");
+        StopAllCoroutines();
+        blocking = false;
+        lineRenderer.enabled = false;
+        edgeCollider.enabled = false;
 
         currentAimStretch = baseAimStretch;
 
         mainHand.doesItemPoint = true;
         offHand.doesItemPoint = false;
+
+        mainHand.itemSprite.sprite = mainData.itemSprite;
         offHand.itemSprite.sprite = offData.itemSprite;
     }
 
