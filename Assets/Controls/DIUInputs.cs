@@ -477,7 +477,7 @@ public class @DIUInputs : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6f403c37-c7f1-4392-b832-aad0d7e6e268"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",

@@ -19,6 +19,33 @@ public class NecroticPowerUI : MonoBehaviour
 
         blueLeft = transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<Image>();
         blueRight = transform.GetChild(1).GetChild(1).GetChild(1).GetComponent<Image>();
+
+        StartCoroutine(ColorPulse());
+    }
+
+    private IEnumerator ColorPulse()
+    {
+        float t = 0;
+        while (true)
+        {
+            t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime / increaseTime;
+                blueLeft.color = Color.Lerp(new Color(1, 1, 1, .5f), new Color(1, 1, 1, .2f), t);
+                blueRight.color = Color.Lerp(new Color(1, 1, 1, .5f), new Color(1, 1, 1, .2f), t);
+                yield return new WaitForEndOfFrame();
+            }
+
+            t = 0;
+            while (t < 1)
+            {
+                t += Time.deltaTime / increaseTime;
+                blueLeft.color = Color.Lerp(new Color(1, 1, 1, .2f), new Color(1, 1, 1, .5f), t);
+                blueRight.color = Color.Lerp(new Color(1, 1, 1, .2f), new Color(1, 1, 1, .5f), t);
+                yield return new WaitForEndOfFrame();
+            }
+        }
     }
 
     //Manage power bar like health bar with stagger bar values
@@ -34,12 +61,15 @@ public class NecroticPowerUI : MonoBehaviour
 
         float t = 0;
 
-        while(t < 0)
+        while (t < 1)
         {
             t += Time.deltaTime / increaseTime;
             blueLeft.fillAmount = Mathf.Lerp(blueLeft.fillAmount, ratio, t);
             blueRight.fillAmount = Mathf.Lerp(blueLeft.fillAmount, ratio, t);
             yield return new WaitForEndOfFrame();
         }
+
+        blueLeft.fillAmount = ratio;
+        blueRight.fillAmount = ratio;
     }
 }

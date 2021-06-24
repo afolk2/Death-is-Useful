@@ -19,18 +19,24 @@ public class SummonableSkeleton : MonoBehaviour
     private Image trinketImage;
     #endregion
 
-    #region Summoning Effects
+    #region Summoning UI Effects
     private Light2D scrollGlow;
     private Light2D summonLight;
     private ParticleSystem summonParticles;
     #endregion
 
-    private SpriteRenderer corpseSpriteRenderer;
-    private bool open;
+    #region Summon Effects
+    [SerializeField] private Sprite[] skellyAnim;
+    [SerializeField] private ParticleSystem finishSummonEffect;
+    #endregion
 
-    [SerializeField] private float entryTime, exitTime;
+    private SpriteRenderer corpseSpriteRenderer;
+    private bool summoned;
+
+    [SerializeField] private float entryTime, exitTime, summonTime;
 
     [Header("Skeleton Values")]
+    [SerializeField] private GameObject skellyPrefab;
     public Kit kit;
     public Trinket trinket;
     public int deathNum;
@@ -85,33 +91,136 @@ public class SummonableSkeleton : MonoBehaviour
         summonParticles.Pause();
 
         #endregion
-
         #region Set UI values to match kit and trinket
         corpseNumText.text = RomanNumeral.ToRoman(deathNum);
         costNumText.text = cost.ToString();
-        kitImage.enabled = kit != null;
-        kitImage.sprite = kit.dropSprite;
-        trinketImage.enabled = trinket != null;
-        trinketImage.sprite = trinket.dropSprite;
+
+        if (kit != null)
+        {
+            kitImage.enabled = true;
+            kitImage.sprite = kit.dropSprite;
+        }
+        else
+        {
+            kitImage.enabled = false;
+            kitImage.sprite = null;
+        }
+
+        if (trinket != null)
+        {
+            trinketImage.enabled = true;
+            trinketImage.sprite = trinket.dropSprite;
+        }
+        else
+        {
+            trinketImage.enabled = false;
+            trinketImage.sprite = null;
+        }
         #endregion
 
-        
+        summoned = false;
     }
 
     public void Spawn()
     {
-
+        summoned = true;
+        StartCoroutine(AnimateSummonLighting());
+        StartCoroutine(AnimateSummonSkeleton());
     }
 
     private void OpenSummonMenu()
     {
-        StartCoroutine(OpenSequence());
-        
+        if (!summoned)
+            StartCoroutine(OpenSequence());
     }
 
     private void CloseSummonMenu()
     {
-        StartCoroutine(CloseSequence());
+        if (!summoned)
+            StartCoroutine(CloseSequence());
+    }
+
+
+    private IEnumerator AnimateSummonLighting()
+    {
+        LeanTween.cancelAll();
+
+        LeanTween.alphaCanvas(dataGroup, 0, summonTime / 4);
+        LeanTween.moveLocalY(topRoll.gameObject, .1f, summonTime / 4).setEaseOutBounce();
+        LeanTween.moveLocalY(botRoll.gameObject, -.1f, summonTime / 4).setEaseOutBounce();
+        LeanTween.scaleY(scrollPageBG.gameObject, 0, summonTime / 4).setEaseOutBounce();
+
+        yield return new WaitForSeconds(summonTime / 4);
+
+        summonParticles.Stop();
+
+        LeanTween.scale(scrollGroup.gameObject, Vector2.zero, summonTime / 4).setEaseOutBounce();
+        LeanTween.alphaCanvas(scrollGroup, 0, summonTime / 4).setEaseOutBounce();
+
+        scrollGroup.alpha = 0;
+
+        float t = 0;
+        while (t < 1)
+        {
+            summonLight.pointLightInnerAngle = Mathf.Lerp(summonLight.pointLightInnerAngle, 5, t);
+            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(summonLight.pointLightOuterAngle, 45f, t), summonLight.pointLightInnerAngle);
+            summonLight.pointLightInnerRadius = Mathf.Lerp(summonLight.pointLightInnerRadius, 3, t);
+            summonLight.pointLightOuterRadius = Mathf.Min(Mathf.Lerp(summonLight.pointLightOuterRadius, 4, t), summonLight.pointLightInnerRadius);
+            t += Time.deltaTime / (summonTime * .75f);
+
+            yield return new WaitForEndOfFrame();
+        }
+        summonLight.pointLightInnerAngle = 5;
+        summonLight.pointLightOuterAngle = 45;
+        summonLight.pointLightOuterRadius = 4;
+        summonLight.pointLightInnerRadius = 3;
+
+        t = 0;
+        while (t < 1)
+        {
+            summonLight.pointLightInnerAngle = Mathf.Lerp(5, 0, t);
+            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(45, 0, t), summonLight.pointLightInnerAngle);
+            summonLight.pointLightInnerRadius = Mathf.Lerp(3, 0, t);
+            summonLight.pointLightOuterRadius = Mathf.Min(Mathf.Lerp(4, 0, t), summonLight.pointLightInnerRadius);
+            t += Time.deltaTime / (summonTime * .1f);
+
+            yield return new WaitForEndOfFrame();
+        }
+        summonLight.pointLightInnerAngle = 0;
+        summonLight.pointLightOuterAngle = 0;
+        summonLight.pointLightOuterRadius = 0;
+        summonLight.pointLightInnerRadius = 0;
+
+
+        Destroy(this);
+    }
+
+    private IEnumerator AnimateSummonSkeleton()
+    {
+        LeanTween.scale(corpseSpriteRenderer.gameObject, Vector3.one * 1.5f, summonTime);
+
+        for (int i = 0; i < skellyAnim.Length; i++)
+        {
+            float t = 0;
+            Vector2 startPos = corpseSpriteRenderer.transform.position;
+
+            while (t < 1)
+            {
+                if (i > skellyAnim.Length / 2)
+                    corpseSpriteRenderer.transform.position = new Vector2(startPos.x + (Mathf.Sin(Time.time * 10f) * .1f), startPos.y + (Mathf.Sin(Time.time * 10) * .1f));
+
+                t += Time.deltaTime / (summonTime / skellyAnim.Length);
+                yield return new WaitForEndOfFrame();
+            }
+            corpseSpriteRenderer.sprite = skellyAnim[i];
+        }
+
+        finishSummonEffect.Play();
+        corpseSpriteRenderer.enabled = false;
+
+        GameObject s = Instantiate(skellyPrefab, transform.position, Quaternion.identity);
+
+        Destroy(gameObject, summonTime);
     }
 
     private IEnumerator OpenSequence()
@@ -121,46 +230,54 @@ public class SummonableSkeleton : MonoBehaviour
         LeanTween.rotateZ(scrollGroup.gameObject, -2, 1f).setLoopPingPong();
 
         summonParticles.Play();
-        LeanTween.scale(scrollGroup.gameObject, Vector2.one, entryTime / 2).setEaseInBounce(); 
-        LeanTween.alphaCanvas(scrollGroup, 1, entryTime / 2).setEaseInBounce(); 
+        LeanTween.scale(scrollGroup.gameObject, Vector2.one, entryTime / 2).setEaseInBounce();
+        LeanTween.alphaCanvas(scrollGroup, 1, entryTime / 2).setEaseInBounce();
+
         float t = 0;
         while (t < 1)
         {
             summonLight.pointLightInnerAngle = Mathf.Lerp(0, 100, t);
+            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(0, 120f, t), summonLight.pointLightInnerAngle);
             summonLight.pointLightOuterRadius = Mathf.Lerp(0, 3, t);
             t += Time.deltaTime / (entryTime / 2);
             yield return new WaitForEndOfFrame();
         }
         summonLight.pointLightInnerAngle = 100;
+        summonLight.pointLightOuterAngle = 120;
         summonLight.pointLightOuterRadius = 3;
 
         LeanTween.alphaCanvas(dataGroup, 1, entryTime / 2);
-        LeanTween.moveLocalY(topRoll.gameObject, 0.8f, entryTime / 2).setEaseInBounce(); 
+        LeanTween.moveLocalY(topRoll.gameObject, 0.8f, entryTime / 2).setEaseInBounce();
         LeanTween.moveLocalY(botRoll.gameObject, -.8f, entryTime / 2).setEaseInBounce();
         LeanTween.scaleY(scrollPageBG.gameObject, 1, entryTime / 2).setEaseInBounce();
 
-        yield return new WaitForSeconds(entryTime / 2);
+
     }
 
     private IEnumerator CloseSequence()
     {
-        LeanTween.alphaCanvas(dataGroup, 0, entryTime / 2); 
-        LeanTween.moveLocalY(topRoll.gameObject, .1f, entryTime / 2).setEaseOutBounce(); 
-        LeanTween.moveLocalY(botRoll.gameObject, -.1f, entryTime / 2).setEaseOutBounce();
-        LeanTween.scaleY(scrollPageBG.gameObject, 0, entryTime / 2).setEaseOutBounce();
-
-        yield return new WaitForSeconds(entryTime / 2);
 
         summonParticles.Stop();
 
-        LeanTween.scale(scrollGroup.gameObject, Vector2.zero, entryTime / 2).setEaseOutBounce();
-        LeanTween.alphaCanvas(scrollGroup, 0, entryTime / 2).setEaseOutBounce();
+        LeanTween.cancelAll();
+
+        LeanTween.alphaCanvas(dataGroup, 0, exitTime / 2);
+        LeanTween.moveLocalY(topRoll.gameObject, .1f, exitTime / 2).setEaseOutBounce();
+        LeanTween.moveLocalY(botRoll.gameObject, -.1f, exitTime / 2).setEaseOutBounce();
+        LeanTween.scaleY(scrollPageBG.gameObject, 0, exitTime / 2).setEaseOutBounce();
+
+        yield return new WaitForSeconds(exitTime / 2);
+
+        LeanTween.scale(scrollGroup.gameObject, Vector2.zero, exitTime / 2).setEaseOutBounce();
+        LeanTween.alphaCanvas(scrollGroup, 0, exitTime / 2).setEaseOutBounce();
+
         float t = 0;
         while (t < 1)
         {
             summonLight.pointLightInnerAngle = Mathf.Lerp(100, 0, t);
+            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(summonLight.pointLightOuterAngle, 30f, t), summonLight.pointLightInnerAngle);
             summonLight.pointLightOuterRadius = Mathf.Lerp(3, 0, t);
-            t += Time.deltaTime / (entryTime / 2);
+            t += Time.deltaTime / (exitTime / 2);
 
             yield return new WaitForEndOfFrame();
         }

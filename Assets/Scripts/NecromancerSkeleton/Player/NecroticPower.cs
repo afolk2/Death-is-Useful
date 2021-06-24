@@ -5,47 +5,32 @@ using UnityEngine;
 public class NecroticPower : MonoBehaviour
 {
     [SerializeField] private NecroticPowerUI powerBar;
-
+                    
+    [SerializeField] private int maxPowerLevel;
     private int powerLevel;
-    private int maxPowerLevel;
 
     private void Start()
     {
-        MaxPowerLevel = 10;
-        powerLevel = 10;
+        powerLevel = maxPowerLevel;
+        RefreshUI();
     }
 
-
-    public int MaxPowerLevel
+    public bool CheckSummonCost(int cost)
     {
-        get { return maxPowerLevel; }
-
-        set
-        {
-            int difference = value - maxPowerLevel;
-            maxPowerLevel = value;
-            CurrentPowerLevel += difference;
-        }
+        return cost <= powerLevel;
     }
 
-
-    public int CurrentPowerLevel
+    public void ChangeMaxPower(int addedPower)
     {
-        get { return powerLevel; }
-        set
-        {
-            powerLevel = Mathf.Clamp(value, 0, MaxPowerLevel);
-            powerBar.SetPower(powerLevel / maxPowerLevel);
-        }
+        maxPowerLevel += addedPower;
+        powerLevel += addedPower;
+        RefreshUI();
     }
-
-
-    public void TrySummoning(SummonableSkeleton summon)
+    public void ChangePower(int addedPower)
     {
-        if(summon.cost < powerLevel)
-        {
-
-        }
+        powerLevel += addedPower;
+        RefreshUI();
     }
 
+    private void RefreshUI() => powerBar.SetPower((float)powerLevel / (float)maxPowerLevel);
 }

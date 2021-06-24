@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
         controls.Player.SecondaryAction.canceled += ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.Enable();
 
-
-        controls.Player.Interact.performed += ctx => HandleInteractAction(ctx.ReadValue<float>());
+        controls.Player.Interact.started += ctx => HandleInteractAction();
+        controls.Player.Interact.Enable();
     }
 
     private void OnDisable()
@@ -52,6 +52,9 @@ public class PlayerController : MonoBehaviour
         controls.Player.SecondaryAction.performed -= ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.canceled -= ctx => HandleSecondaryAction(ctx.ReadValue<float>());
         controls.Player.SecondaryAction.Disable();
+
+        controls.Player.Interact.started -= ctx => HandleInteractAction();
+        controls.Player.Interact.Disable();
     }
     #region Input Handle Methods
 
@@ -79,10 +82,9 @@ public class PlayerController : MonoBehaviour
         skeletonInput.mousePositionInput = mainCamera.ScreenToWorldPoint(input);
     }
 
-    private void HandleInteractAction(float input)
+    private void HandleInteractAction()
     {
-        if (input > 0)
-            necroInput.Interact();
+        necroInput.Interact();
     }
     #endregion
 
@@ -97,6 +99,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         skeletonInput = GetComponent<SkeletonInput>();
+        necroInput = GetComponent<NecromancerInput>();
 
         if (mainCamera == null)
             mainCamera = Camera.main;
