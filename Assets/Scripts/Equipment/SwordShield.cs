@@ -13,9 +13,11 @@ public class SwordShield : Kit
 
     [Header("-- Shield Block Stats --")]
     [SerializeField] private int blockStrength;
-    [SerializeField] private float blockArc;
+    [SerializeField] private float blockArcHeight, blockArcWidth;
     [SerializeField] private float counterTime;
     [SerializeField] private float shieldStretch;
+
+    private LineRenderer arcRend;
 
     private bool backSlash;
     private bool blocking;
@@ -39,7 +41,7 @@ public class SwordShield : Kit
         if (m.skeletonKit.idle || !blocking)
         {
             blocking = true;
-            m.skeletonKit.Block(blockStrength, blockArc, counterTime, shieldStretch, mainHand, offHand);
+            m.skeletonKit.Block(blockStrength, blockArcWidth, blockArcHeight, counterTime, shieldStretch, mainHand, offHand);
         }
             
     }
