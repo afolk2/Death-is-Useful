@@ -279,6 +279,32 @@ public class MapGen : MonoBehaviour
             rooms[i].Init();
         }
 
+        #region Debug Room Creation
+
+        if (GameObject.Find("Debug Map Container"))
+        {
+#if UNITY_EDITOR
+            DestroyImmediate(GameObject.Find("Debug Map Container"));
+#else
+            Destroy(GameObject.Find("Debug Map Container"));
+#endif
+        }
+        GameObject debugMapContainer = new GameObject("Debug Map Container");
+
+        for (int i = 0; i < rooms.Length; i++)
+        {
+            GameObject debugRoomContainer = new GameObject($"Room {i} : Area {rooms[i].area}");
+            debugRoomContainer.transform.parent = debugMapContainer.transform;
+
+            foreach (Vector2 location in rooms[i].layout)
+            {
+                GameObject debugWall = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                debugWall.transform.position = location;
+                debugWall.transform.parent = debugRoomContainer.transform;
+            }
+        }
+        #endregion
+
         // Check for and cut intersecting rooms.
         CutRooms(rooms, mapLength, mapHeight);
 
@@ -313,14 +339,18 @@ public class MapGen : MonoBehaviour
         {
             mapLayout.Clear();
         }
+        else
+        {
+            mapLayout = new List<Vector2>();
+        }
 
 
         foreach (Room room in rooms)
         {
             // find every vector2 in room that is not inside the map list and add it.
             mapLayout.AddRange(
-                room.layout.FindAll(
-                    item => !mapLayout.Contains(item)));
+                room.layout);//.FindAll(
+                    //item => !mapLayout.Contains(item)));
         }
 
 
@@ -458,12 +488,13 @@ public class MapGen : MonoBehaviour
         {
             ///ToDo: Cut the intersecting wall of this from section B
 
-            // Removes all tiles that fall inside a from b
+            // Remove all locations that are inside this room from room b.
             b.layout.RemoveAll(location => location.x > startingPosition.x && location.x < startingPosition.x + length && location.y > startingPosition.y && location.y < startingPosition.y + height);
+
 
             // Add the walls from this room that are inside room b.
             b.layout.AddRange(layout.FindAll(item =>
-                (item.x == startingPosition.x || item.x == startingPosition.x + length) && (item.y == startingPosition.y || item.y == startingPosition.y + height) &&
+                
                 (item.x > b.startingPosition.x && item.x < b.startingPosition.x + length && item.y > b.startingPosition.y && item.y < b.startingPosition.y + height)
                 ));
 
