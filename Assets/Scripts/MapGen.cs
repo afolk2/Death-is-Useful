@@ -212,7 +212,7 @@ public class MapGen : MonoBehaviour
     float maxLargeSizePercent;
 
     List<Vector2> map;
-    
+
 
     private void Awake()
     {
@@ -250,7 +250,7 @@ public class MapGen : MonoBehaviour
         Debug.Log($"numSmall = Random.Range({mapArea / maxLargeArea},{mapArea / maxMediumArea}) = {numLarge}");
 
 
-        Room[] rooms = new Room[numSmall+numMedium+numLarge];
+        Room[] rooms = new Room[numSmall + numMedium + numLarge];
 
         for (int i = 0; i < numSmall; i++)
         {
@@ -258,7 +258,7 @@ public class MapGen : MonoBehaviour
 
             rooms[i].Init();
         }
-        for (int i = numSmall; i < numSmall+numMedium; i++)
+        for (int i = numSmall; i < numSmall + numMedium; i++)
         {
             rooms[i] = MakeRoom(mapLength, mapHeight, maxSmallArea, maxMediumArea);
 
@@ -296,7 +296,11 @@ public class MapGen : MonoBehaviour
 
     private void UpdateMap(Room[] rooms, int mapLength, int mapHeight)
     {
-        map.Clear();
+        if (map != null)
+        {
+            map.Clear();
+        }
+
 
         foreach (Room room in rooms)
         {
@@ -327,7 +331,11 @@ public class MapGen : MonoBehaviour
     {
         if (GameObject.Find("map"))
         {
+#if UNITY_EDITOR
+            DestroyImmediate(GameObject.Find("map"));
+#else
             Destroy(GameObject.Find("map"));
+#endif
         }
         GameObject mapContainer = new GameObject("map");
 
@@ -344,7 +352,7 @@ public class MapGen : MonoBehaviour
     {
         for (int a = 0; a < rooms.Length - 1; a++)
         {
-            for (int b =  a+ 1; b < rooms.Length; b++)
+            for (int b = a + 1; b < rooms.Length; b++)
             {
                 if (rooms[a].Intersects(rooms[b]))
                 {
@@ -372,7 +380,7 @@ public class MapGen : MonoBehaviour
                     small.CutFrom(large);
                     UpdateMap(rooms, mapLength, mapHeight);
                     large.CalculateArea(map);
-                    if(large.area < 10)
+                    if (large.area < 10)
                     {
                         large.layout.Clear();
                     }
@@ -421,7 +429,7 @@ public class MapGen : MonoBehaviour
         public void CutFrom(Room b)
         {
             ///ToDo: Cut the intersecting wall of this from section B
-            
+
             // Removes all tiles that fall inside a from b
             b.layout.RemoveAll(location => location.x > startingPosition.x && location.x < startingPosition.x + length && location.y > startingPosition.y && location.y < startingPosition.y + height);
 
@@ -493,7 +501,7 @@ public class MapGen : MonoBehaviour
     }
 
 
-    #endregion
+#endregion
 }
 
 static class UsefulShortcuts
