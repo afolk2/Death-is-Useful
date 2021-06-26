@@ -211,17 +211,18 @@ public class MapGen : MonoBehaviour
     [Range(0, 1)]
     float maxLargeSizePercent;
 
-    List<Vector2> map;
+    List<Vector2> mapLayout;
 
 
     private void Awake()
     {
-        map = new List<Vector2>();
+        mapLayout = new List<Vector2>();
         GenerateMap();
     }
 
     public void GenerateMap()
     {
+        //Length, width, and area of the map.
         int length = Random.Range(minMapSize, maxMapSize);
         int width = Random.Range(minMapSize, maxMapSize);
         int area = length * width;
@@ -233,13 +234,18 @@ public class MapGen : MonoBehaviour
 
     void GenerateRooms(int mapLength, int mapHeight, int mapArea)
     {
+        // Get the smallest room area (used for the smallest small room)
         int minRoomArea = (int)(minRoomAreaPercent * mapArea);
 
+        // Max room areas.
         int maxSmallArea = (int)(mapArea * maxSmallSizePercent);
         int maxMediumArea = (int)(mapArea * maxMediumSizePercent);
         int maxLargeArea = (int)(mapArea * maxLargeSizePercent);
 
+        // Clears the Console in between generating maps 
         UsefulShortcuts.ClearConsole();
+
+        // Get a random number of small, medium, and large rooms based off of the map area and min/max room size.
         int numSmall = Random.Range(mapArea / maxSmallArea, mapArea / minRoomArea);
         Debug.Log($"numSmall = Random.Range({mapArea / maxSmallArea},{mapArea / minRoomArea}) = {numSmall}");
 
@@ -252,6 +258,8 @@ public class MapGen : MonoBehaviour
 
         Room[] rooms = new Room[numSmall + numMedium + numLarge];
 
+        // Probably a better way to do this section
+        // Generating each sized room.
         for (int i = 0; i < numSmall; i++)
         {
             rooms[i] = MakeRoom(mapLength, mapHeight, minRoomArea, maxSmallArea);
@@ -271,23 +279,27 @@ public class MapGen : MonoBehaviour
             rooms[i].Init();
         }
 
+        // Check for and cut intersecting rooms.
         CutRooms(rooms, mapLength, mapHeight);
 
+        // Creates some quads to view the map layout for now.
         DrawMap();
     }
 
     Room MakeRoom(int mapLength, int mapHeight, int minRoomArea, int maxRoomArea)
     {
-
+        // random area based on min and max room area.
         int area = Random.Range(minRoomArea, maxRoomArea);
-
+        // the start position (lower left) of the room
         Vector2 start = new Vector2(
             Random.Range(
                 0, (int)(mapLength * 0.8f)),
             Random.Range(
                 0, (int)(mapHeight * 0.8f)));
 
+        // Random value between 5 and 1/5 of the area or whatever length is left over from our starting position, whichever is smaller. Keeps the rooms within the bounds of the map.
         int length = Mathf.Min(Random.Range(5, area / 5), mapLength - (int)start.x);
+        // similar to the length, but we use the length to make sure we don't go over our area.
         int height = Mathf.Min(Random.Range(5, Mathf.Max(5, area / length)), mapHeight - (int)start.y);
 
         return new Room(start, length, height);
@@ -296,21 +308,23 @@ public class MapGen : MonoBehaviour
 
     private void UpdateMap(Room[] rooms, int mapLength, int mapHeight)
     {
-        if (map != null)
+        // used while in editor since the map isn't created in awake.
+        if (mapLayout != null)
         {
-            map.Clear();
+            mapLayout.Clear();
         }
 
 
         foreach (Room room in rooms)
         {
             // find every vector2 in room that is not inside the map list and add it.
-            map.AddRange(
+            mapLayout.AddRange(
                 room.layout.FindAll(
-                    item => !map.Contains(item)));
+                    item => !mapLayout.Contains(item)));
         }
 
 
+        // Outline the map
         for (int x = 0; x <= mapLength; x++)
         {
             for (int y = 0; y <= mapHeight; y++)
@@ -318,9 +332,10 @@ public class MapGen : MonoBehaviour
                 if (x == mapLength || x == 0 || y == mapHeight || y == 0)
                 {
                     Vector2 mapOutlineWall = new Vector2(x, y);
-                    if (!map.Contains(mapOutlineWall))
+                    // if the mapLayout doesn't already contain the location we are looking at then add it (may be added from a room bordering the map bounds)
+                    if (!mapLayout.Contains(mapOutlineWall))
                     {
-                        map.Add(mapOutlineWall);
+                        mapLayout.Add(mapOutlineWall);
                     }
                 }
 
@@ -329,6 +344,7 @@ public class MapGen : MonoBehaviour
     }
     private void DrawMap()
     {
+        // Destroys the map GameObject that contains the quads to generate a new map.
         if (GameObject.Find("map"))
         {
 #if UNITY_EDITOR
@@ -339,8 +355,8 @@ public class MapGen : MonoBehaviour
         }
         GameObject mapContainer = new GameObject("map");
 
-
-        foreach (Vector2 location in map)
+        // Create the quads at each location in the mapLayout and set the parent to the mapContainer.
+        foreach (Vector2 location in mapLayout)
         {
             GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Quad);
             wall.transform.position = location;
@@ -350,15 +366,19 @@ public class MapGen : MonoBehaviour
 
     void CutRooms(Room[] rooms, int mapLength, int mapHeight)
     {
+        // going through each room once only checking the rooms after it.
         for (int a = 0; a < rooms.Length - 1; a++)
         {
             for (int b = a + 1; b < rooms.Length; b++)
             {
                 if (rooms[a].Intersects(rooms[b]))
                 {
+
                     Room small = rooms[a];
                     Room large = rooms[b];
-                    // cut the larger room
+
+                    // Get the larger of either room
+
                     if (rooms[a].area > rooms[b].area)
                     {
                         small = rooms[b];
@@ -371,15 +391,20 @@ public class MapGen : MonoBehaviour
                     }
                     else
                     {
+                        // 50% chance to set room b as smaller if the rooms are equal area.
                         if (Random.Range(0, 1) == 0)
                         {
                             small = rooms[b];
                             large = rooms[a];
                         }
                     }
+                    // cut the smaller room from the larger one.
                     small.CutFrom(large);
+                    // update the map so that we can recalculate the area of the cut room.
                     UpdateMap(rooms, mapLength, mapHeight);
-                    large.CalculateArea(map);
+                    // recalculate the area of the cut (larger) room
+                    large.CalculateArea(mapLayout);
+                    // if the larger room's area is too small then clear it's layout.
                     if (large.area < 10)
                     {
                         large.layout.Clear();
@@ -418,11 +443,14 @@ public class MapGen : MonoBehaviour
             int count = 0;
             foreach (Vector2 location in layout)
             {
+                // if b and a contain the same location
                 if (b.layout.Contains(location))
                 {
+                    // increment a counter
                     count++;
                 }
             }
+            // if the counter is greater than 0 then they intersect.
             return count > 0;
         }
 
@@ -465,16 +493,23 @@ public class MapGen : MonoBehaviour
              */
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="searchArea">Section of the map that contains the room</param>
         public void CalculateArea(List<Vector2> searchArea)
         {
+            // recalculate the area as the base area
             area = length * height;
 
             for (int x = (int)startingPosition.x + 1; x < startingPosition.x + length; x++)
             {
                 for (int y = (int)startingPosition.y + 1; y < startingPosition.y + height; y++)
                 {
+                    // if search area contains this vector then it means there is a wall at this location
                     if (searchArea.Contains(new Vector2(x, y)))
                     {
+                        // we remove 1 from the area
                         area--;
                     }
 
@@ -484,6 +519,8 @@ public class MapGen : MonoBehaviour
 
         public void Init()
         {
+            //generating our layout based on the starting position.
+
             layout = new List<Vector2>();
             int xStop = length + (int)startingPosition.x;
             int yStop = height + (int)startingPosition.y;
