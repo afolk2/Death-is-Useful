@@ -342,8 +342,18 @@ public class SkeletonKit : MonoBehaviour
         mainHand.handObject.SetActive(newKit.mainHand.itemSprite != null);
         offHand.handObject.SetActive(newKit.offHand.itemSprite != null);
 
-        mainHand.doesItemPoint = newKit.mainHand.itemDoesAim;
-        offHand.doesItemPoint = newKit.offHand.itemDoesAim;
+
+        if(GetComponentInParent<MinionController>() != null)
+        {
+            mainHand.doesItemPoint = newKit.mainHand.itemDoesAimMinion;
+            offHand.doesItemPoint = newKit.offHand.itemDoesAimMinion;
+        }
+        else
+        {
+            mainHand.doesItemPoint = newKit.mainHand.itemDoesAim;
+            offHand.doesItemPoint = newKit.offHand.itemDoesAim;
+        }
+        
 
         mainHand.itemSprite.sprite = newKit.mainHand.itemSprite;
         offHand.itemSprite.sprite = newKit.offHand.itemSprite;

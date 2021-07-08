@@ -16,7 +16,7 @@ public abstract class Kit : MonoBehaviour
         public Sprite itemSprite;
         public Sprite itemActiveSprite;
         public Vector2 itemOffset;
-        public bool itemDoesAim;
+        public bool itemDoesAim, itemDoesAimMinion;
         public int spriteLayer;
     }
     [SerializeField]

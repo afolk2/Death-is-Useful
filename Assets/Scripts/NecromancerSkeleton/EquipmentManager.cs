@@ -25,6 +25,7 @@ public class EquipmentManager : MonoBehaviour
 
     private Kit currentKit;
     private Trinket currentTrinket;
+    
 #if UNITY_EDITOR
     [Header("--- Testing ---")]
     public Kit testItem;
