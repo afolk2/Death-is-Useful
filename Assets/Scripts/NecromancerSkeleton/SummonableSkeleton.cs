@@ -152,7 +152,7 @@ public class SummonableSkeleton : MonoBehaviour
 
         yield return new WaitForSeconds(summonTime / 4);
 
-        summonParticles.Stop();
+        
 
         LeanTween.scale(scrollGroup.gameObject, Vector2.zero, summonTime / 4).setEaseOutBounce();
         LeanTween.alphaCanvas(scrollGroup, 0, summonTime / 4).setEaseOutBounce();
@@ -162,26 +162,26 @@ public class SummonableSkeleton : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            summonLight.pointLightInnerAngle = Mathf.Lerp(summonLight.pointLightInnerAngle, 5, t);
-            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(summonLight.pointLightOuterAngle, 45f, t), summonLight.pointLightInnerAngle);
-            summonLight.pointLightInnerRadius = Mathf.Lerp(summonLight.pointLightInnerRadius, 3, t);
-            summonLight.pointLightOuterRadius = Mathf.Min(Mathf.Lerp(summonLight.pointLightOuterRadius, 4, t), summonLight.pointLightInnerRadius);
+            summonLight.pointLightOuterAngle = Mathf.Lerp(summonLight.pointLightOuterAngle, 90f, t);
+            summonLight.pointLightInnerAngle = Mathf.Min(Mathf.Lerp(summonLight.pointLightInnerAngle, 15, t), summonLight.pointLightOuterAngle);
+            summonLight.pointLightOuterRadius = Mathf.Lerp(summonLight.pointLightOuterRadius, 4, t);
+            summonLight.pointLightInnerRadius = Mathf.Min(Mathf.Lerp(summonLight.pointLightInnerRadius, 0, t), summonLight.pointLightOuterRadius);
             t += Time.deltaTime / (summonTime * .75f);
 
             yield return new WaitForEndOfFrame();
         }
-        summonLight.pointLightInnerAngle = 5;
-        summonLight.pointLightOuterAngle = 45;
+
+        summonLight.pointLightInnerAngle = 45;
+        summonLight.pointLightOuterAngle = 90;
         summonLight.pointLightOuterRadius = 4;
-        summonLight.pointLightInnerRadius = 3;
+        summonLight.pointLightInnerRadius = 0;
 
         t = 0;
         while (t < 1)
         {
-            summonLight.pointLightInnerAngle = Mathf.Lerp(5, 0, t);
-            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(45, 0, t), summonLight.pointLightInnerAngle);
-            summonLight.pointLightInnerRadius = Mathf.Lerp(3, 0, t);
+            summonLight.pointLightOuterAngle = Mathf.Lerp(90, 0, t);
             summonLight.pointLightOuterRadius = Mathf.Min(Mathf.Lerp(4, 0, t), summonLight.pointLightInnerRadius);
+            summonLight.pointLightInnerAngle = Mathf.Min(Mathf.Lerp(15, 0, t), summonLight.pointLightOuterAngle);
             t += Time.deltaTime / (summonTime * .1f);
 
             yield return new WaitForEndOfFrame();
@@ -189,15 +189,14 @@ public class SummonableSkeleton : MonoBehaviour
         summonLight.pointLightInnerAngle = 0;
         summonLight.pointLightOuterAngle = 0;
         summonLight.pointLightOuterRadius = 0;
-        summonLight.pointLightInnerRadius = 0;
-
+        summonParticles.Stop();
 
         Destroy(this);
     }
 
     private IEnumerator AnimateSummonSkeleton()
     {
-        LeanTween.scale(corpseSpriteRenderer.gameObject, Vector3.one * 1.5f, summonTime);
+        LeanTween.scale(corpseSpriteRenderer.gameObject, Vector3.one * 1.5f, summonTime).setEaseInCirc();
 
         for (int i = 0; i < skellyAnim.Length; i++)
         {
@@ -207,7 +206,7 @@ public class SummonableSkeleton : MonoBehaviour
             while (t < 1)
             {
                 if (i > skellyAnim.Length / 2)
-                    corpseSpriteRenderer.transform.position = new Vector2(startPos.x + (Mathf.Sin(Time.time * 10f) * .1f), startPos.y + (Mathf.Sin(Time.time * 10) * .1f));
+                    corpseSpriteRenderer.transform.position = new Vector2(startPos.x + (Mathf.Sin(Time.time * 20f) * .1f), startPos.y + (Mathf.Sin(Time.time * 20) * .1f));
 
                 t += Time.deltaTime / (summonTime / skellyAnim.Length);
                 yield return new WaitForEndOfFrame();
@@ -236,8 +235,9 @@ public class SummonableSkeleton : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            summonLight.pointLightInnerAngle = Mathf.Lerp(0, 100, t);
-            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(0, 120f, t), summonLight.pointLightInnerAngle);
+            
+            summonLight.pointLightOuterAngle = Mathf.Lerp(0, 120f, t);
+            summonLight.pointLightInnerAngle = Mathf.Min(Mathf.Lerp(0, 100, t), summonLight.pointLightOuterAngle);
             summonLight.pointLightOuterRadius = Mathf.Lerp(0, 3, t);
             t += Time.deltaTime / (entryTime / 2);
             yield return new WaitForEndOfFrame();
@@ -274,8 +274,8 @@ public class SummonableSkeleton : MonoBehaviour
         float t = 0;
         while (t < 1)
         {
-            summonLight.pointLightInnerAngle = Mathf.Lerp(100, 0, t);
-            summonLight.pointLightOuterAngle = Mathf.Min(Mathf.Lerp(summonLight.pointLightOuterAngle, 30f, t), summonLight.pointLightInnerAngle);
+            summonLight.pointLightOuterAngle = Mathf.Lerp(summonLight.pointLightOuterAngle, 30f, t);
+            summonLight.pointLightInnerAngle = Mathf.Min(Mathf.Lerp(100, 0, t), summonLight.pointLightOuterAngle);
             summonLight.pointLightOuterRadius = Mathf.Lerp(3, 0, t);
             t += Time.deltaTime / (exitTime / 2);
 
