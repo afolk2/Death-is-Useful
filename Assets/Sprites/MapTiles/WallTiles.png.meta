@@ -4,151 +4,151 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -355015002225083662
-    second: WallTLCorner
+    second: Yellow_TL_Edge
   - first:
       213: 122382589700334822
-    second: WallT
+    second: Yellow_T_Edge
   - first:
       213: 5523321055691104164
-    second: WallTRCorner
+    second: Yellow_TR_Edge
   - first:
       213: -8501390876051243236
-    second: WallVertT
+    second: Blood_TL_Edge
   - first:
       213: 143058494288025283
-    second: WallTLInner
+    second: Blood_T_Edge
   - first:
       213: -4687942061180009799
-    second: WallTRInner
+    second: Blood_TR_Edge
   - first:
       213: -1653664669557398466
-    second: WallAlt1
+    second: Slab_TL_Edge
   - first:
       213: 8913554328433413802
-    second: WallAlt2
+    second: Slab_T_Edge
   - first:
       213: -1772488337058216656
-    second: WallTiles_8
+    second: Slab_TR_Edge
   - first:
       213: 41342033946546315
-    second: WallTiles_9
+    second: AltStandard_TL_Edge
   - first:
       213: 7290347052415479547
-    second: WallTiles_10
+    second: AltStandard_T_Edge
   - first:
       213: -1538010154570243154
-    second: WallTiles_11
+    second: AltStandard_TR_Edge
   - first:
       213: 2272426632023461586
-    second: WallL
+    second: Clean_T_Vertical
   - first:
       213: 7912454534869089820
-    second: Wall
+    second: Yellow_L_Edge
   - first:
       213: 4369778096067271813
-    second: WallR
+    second: Yellow_Filled
   - first:
       213: 4062042289680989480
-    second: WallVert
+    second: Yellow_R_Edge
   - first:
       213: -3494826153259745318
-    second: WallBLInner
+    second: Blood_L_Edge
   - first:
       213: 3234696907992317633
-    second: WallBRInner
+    second: Blood_Filled
   - first:
       213: 571292447819178601
-    second: WallAlt4
+    second: Blood_R_Edge
   - first:
       213: -518812808089010552
-    second: WallAlt3
+    second: Slab_L_Edge
   - first:
       213: 603407383648182186
-    second: WallTiles_20
+    second: Slab_Filled
   - first:
       213: -2108899964269276734
-    second: WallTiles_21
+    second: Slab_R_Edge
   - first:
       213: 7716153597677910011
-    second: WallTiles_22
+    second: AltStandard_L_Edge
   - first:
       213: 916632322510266100
-    second: WallTiles_23
+    second: AltStandard_Filled
   - first:
       213: -6051257665875503909
-    second: WallBLCorner
+    second: AltStandard_R_Edge
   - first:
       213: 7160930458662602108
-    second: WallB
+    second: Clean_Mid_Vertical
   - first:
       213: 709323233731174481
-    second: WallBRCorner
+    second: Yellow_BL_Edge
   - first:
       213: -3735955679113328910
-    second: WallVertB
+    second: Yellow_B_Edge
   - first:
       213: 6932484449776889863
-    second: WallTiles_28
+    second: Yellow_BR_Edge
   - first:
       213: -6671769956524617482
-    second: WallTiles_29
+    second: Blood_BL_Edge
   - first:
       213: 550834176180247788
-    second: WallTiles_30
+    second: Blood_B_Edge
   - first:
       213: 4616570508688275169
-    second: WallTiles_31
+    second: Blood_BR_Edge
   - first:
       213: 8676003742051503011
-    second: WallTiles_32
+    second: Slab_BL_Edge
   - first:
       213: 9119836671432643427
-    second: WallTiles_33
+    second: Slab_B_Edge
   - first:
       213: 1195070359976739924
-    second: WallTiles_34
+    second: Slab_BR_Edge
   - first:
       213: 4973976542709173100
-    second: WallTiles_35
+    second: AltStandard_BL_Edge
   - first:
       213: 6825324023797954604
-    second: WallHorzL
+    second: AltStandard_B_Edge
   - first:
       213: 1225388260748838448
-    second: WallHorz
+    second: AltStandard_BR_Edge
   - first:
       213: -655216183238471320
-    second: WallHorzR
+    second: Clean_B_Vertical
   - first:
       213: -3992572839692561954
-    second: WallDot
+    second: Standard_TL_Edge
   - first:
       213: 8871488438904276736
-    second: WallTiles_40
+    second: Standard_T_Edge
   - first:
       213: 1176411894488850269
-    second: WallTiles_41
+    second: Standard_TR_Edge
   - first:
       213: 8839142762292331271
-    second: WallTiles_42
+    second: Standard_T_Vertical
   - first:
       213: 1559336562224425022
-    second: WallTiles_43
+    second: Standard_TL_InnerEdge
   - first:
       213: -6452166852716455885
-    second: WallTiles_44
+    second: Standard_TR_InnerEdge
   - first:
       213: 5993305125991925080
-    second: WallTiles_45
+    second: Clean_L_Horizontal
   - first:
       213: 1031491223682975147
-    second: WallTiles_46
+    second: Clean_Mid_Horizontal
   - first:
       213: -2079043347002327554
-    second: WallTiles_47
+    second: Clean_R_Horizontal
   - first:
       213: 3623054048550220929
-    second: WallTiles_48
+    second: Clean_Single
   - first:
       213: -92133195544271199
     second: WallTiles_49
@@ -163,22 +163,22 @@ TextureImporter:
     second: WallTiles_52
   - first:
       213: -2068318473858444358
-    second: WallTiles_53
+    second: Standard_L_Edge
   - first:
       213: -2834212199253679818
-    second: WallTiles_54
+    second: Standard_Filled
   - first:
       213: -4484145836269003770
-    second: WallTiles_55
+    second: Standard_R_Edge
   - first:
       213: 5222891900423019276
-    second: WallTiles_56
+    second: Standard_Mid_Vertical
   - first:
       213: -1959581880524745557
-    second: WallTiles_57
+    second: Standard_BL_InnerEdge
   - first:
       213: 7201602409008983897
-    second: WallTiles_58
+    second: Standard_BR_InnerEdge
   - first:
       213: 4017181796321107660
     second: WallTiles_59
@@ -193,16 +193,16 @@ TextureImporter:
     second: WallTiles_62
   - first:
       213: -5903784056996009806
-    second: WallTiles_63
+    second: Standard_BL_Edge
   - first:
       213: -4337285786133175311
-    second: WallTiles_64
+    second: Standard_B_Edge
   - first:
       213: 850813483083164569
-    second: WallTiles_65
+    second: Standard_BR_Edge
   - first:
       213: 1240604644535670688
-    second: WallTiles_66
+    second: Standard_B_Vertical
   - first:
       213: 4436801543308199315
     second: WallTiles_67
@@ -218,6 +218,18 @@ TextureImporter:
   - first:
       213: 7826232885142241933
     second: WallTiles_71
+  - first:
+      213: -8414251612697473972
+    second: Standard_L_Horizontal
+  - first:
+      213: 8751706166751573278
+    second: Standard_Mid_Horizontal
+  - first:
+      213: -6148899143778024299
+    second: Standard_R_Horizontal
+  - first:
+      213: -4115913058789301957
+    second: Standard_Single
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -284,7 +296,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -296,7 +308,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -307,11 +319,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WallTLCorner
+      name: Yellow_TL_Edge
       rect:
         serializedVersion: 2
-        x: 0
-        y: 80
+        x: 1
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -328,11 +340,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallT
+      name: Yellow_T_Edge
       rect:
         serializedVersion: 2
         x: 16
-        y: 80
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -349,11 +361,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTRCorner
+      name: Yellow_TR_Edge
       rect:
         serializedVersion: 2
         x: 32
-        y: 80
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -370,11 +382,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallVertT
+      name: Blood_TL_Edge
       rect:
         serializedVersion: 2
         x: 48
-        y: 80
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -391,11 +403,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTLInner
+      name: Blood_T_Edge
       rect:
         serializedVersion: 2
         x: 64
-        y: 80
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -412,11 +424,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTRInner
+      name: Blood_TR_Edge
       rect:
         serializedVersion: 2
         x: 80
-        y: 80
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -433,11 +445,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallAlt1
+      name: Slab_TL_Edge
       rect:
         serializedVersion: 2
-        x: 112
-        y: 80
+        x: 96
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -454,11 +466,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallAlt2
+      name: Slab_T_Edge
       rect:
         serializedVersion: 2
-        x: 128
-        y: 80
+        x: 112
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -475,11 +487,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_8
+      name: Slab_TR_Edge
       rect:
         serializedVersion: 2
-        x: 160
-        y: 80
+        x: 128
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -496,11 +508,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_9
+      name: AltStandard_TL_Edge
       rect:
         serializedVersion: 2
-        x: 176
-        y: 80
+        x: 144
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -517,11 +529,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_10
+      name: AltStandard_T_Edge
       rect:
         serializedVersion: 2
-        x: 192
-        y: 80
+        x: 160
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -538,11 +550,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_11
+      name: AltStandard_TR_Edge
       rect:
         serializedVersion: 2
-        x: 208
-        y: 80
+        x: 176
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -559,11 +571,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallL
+      name: Clean_T_Vertical
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 192
+        y: 128
         width: 16
         height: 16
       alignment: 0
@@ -580,11 +592,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall
+      name: Yellow_L_Edge
       rect:
         serializedVersion: 2
-        x: 16
-        y: 64
+        x: 0
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -601,11 +613,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallR
+      name: Yellow_Filled
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 16
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -622,11 +634,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallVert
+      name: Yellow_R_Edge
       rect:
         serializedVersion: 2
-        x: 48
-        y: 64
+        x: 32
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -643,11 +655,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallBLInner
+      name: Blood_L_Edge
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 48
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -664,11 +676,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallBRInner
+      name: Blood_Filled
       rect:
         serializedVersion: 2
-        x: 80
-        y: 64
+        x: 64
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -685,11 +697,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallAlt4
+      name: Blood_R_Edge
       rect:
         serializedVersion: 2
-        x: 112
-        y: 64
+        x: 80
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -706,11 +718,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallAlt3
+      name: Slab_L_Edge
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
+        x: 96
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -727,11 +739,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_20
+      name: Slab_Filled
       rect:
         serializedVersion: 2
-        x: 160
-        y: 64
+        x: 112
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -748,11 +760,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_21
+      name: Slab_R_Edge
       rect:
         serializedVersion: 2
-        x: 176
-        y: 64
+        x: 128
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -769,11 +781,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_22
+      name: AltStandard_L_Edge
       rect:
         serializedVersion: 2
-        x: 192
-        y: 64
+        x: 144
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -790,11 +802,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_23
+      name: AltStandard_Filled
       rect:
         serializedVersion: 2
-        x: 208
-        y: 64
+        x: 160
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -811,11 +823,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallBLCorner
+      name: AltStandard_R_Edge
       rect:
         serializedVersion: 2
-        x: 0
-        y: 48
+        x: 176
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -832,11 +844,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallB
+      name: Clean_Mid_Vertical
       rect:
         serializedVersion: 2
-        x: 16
-        y: 48
+        x: 192
+        y: 112
         width: 16
         height: 16
       alignment: 0
@@ -853,11 +865,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallBRCorner
+      name: Yellow_BL_Edge
       rect:
         serializedVersion: 2
-        x: 32
-        y: 48
+        x: 0
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -874,11 +886,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallVertB
+      name: Yellow_B_Edge
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
+        x: 16
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -895,11 +907,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_28
+      name: Yellow_BR_Edge
       rect:
         serializedVersion: 2
-        x: 96
-        y: 48
+        x: 32
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -916,11 +928,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_29
+      name: Blood_BL_Edge
       rect:
         serializedVersion: 2
-        x: 112
-        y: 48
+        x: 48
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -937,11 +949,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_30
+      name: Blood_B_Edge
       rect:
         serializedVersion: 2
-        x: 128
-        y: 48
+        x: 64
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -958,11 +970,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_31
+      name: Blood_BR_Edge
       rect:
         serializedVersion: 2
-        x: 144
-        y: 48
+        x: 80
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -979,11 +991,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_32
+      name: Slab_BL_Edge
       rect:
         serializedVersion: 2
-        x: 160
-        y: 48
+        x: 96
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1000,11 +1012,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_33
+      name: Slab_B_Edge
       rect:
         serializedVersion: 2
-        x: 176
-        y: 48
+        x: 112
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1021,11 +1033,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_34
+      name: Slab_BR_Edge
       rect:
         serializedVersion: 2
-        x: 192
-        y: 48
+        x: 128
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1042,11 +1054,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_35
+      name: AltStandard_BL_Edge
       rect:
         serializedVersion: 2
-        x: 208
-        y: 48
+        x: 144
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1063,11 +1075,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallHorzL
+      name: AltStandard_B_Edge
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 160
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1084,11 +1096,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallHorz
+      name: AltStandard_BR_Edge
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
+        x: 176
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1105,11 +1117,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallHorzR
+      name: Clean_B_Vertical
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 192
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -1126,11 +1138,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallDot
+      name: Standard_TL_Edge
       rect:
         serializedVersion: 2
-        x: 48
-        y: 32
+        x: 0
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1147,11 +1159,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_40
+      name: Standard_T_Edge
       rect:
         serializedVersion: 2
-        x: 96
-        y: 32
+        x: 16
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1168,11 +1180,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_41
+      name: Standard_TR_Edge
       rect:
         serializedVersion: 2
-        x: 112
-        y: 32
+        x: 32
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1189,11 +1201,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_42
+      name: Standard_T_Vertical
       rect:
         serializedVersion: 2
-        x: 128
-        y: 32
+        x: 48
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1210,11 +1222,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_43
+      name: Standard_TL_InnerEdge
       rect:
         serializedVersion: 2
-        x: 144
-        y: 32
+        x: 64
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1231,11 +1243,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_44
+      name: Standard_TR_InnerEdge
       rect:
         serializedVersion: 2
-        x: 160
-        y: 32
+        x: 80
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1252,11 +1264,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_45
+      name: Clean_L_Horizontal
       rect:
         serializedVersion: 2
-        x: 176
-        y: 32
+        x: 96
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1273,11 +1285,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_46
+      name: Clean_Mid_Horizontal
       rect:
         serializedVersion: 2
-        x: 192
-        y: 32
+        x: 112
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1294,11 +1306,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_47
+      name: Clean_R_Horizontal
       rect:
         serializedVersion: 2
-        x: 208
-        y: 32
+        x: 128
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1315,11 +1327,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_48
+      name: Clean_Single
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 144
+        y: 80
         width: 16
         height: 16
       alignment: 0
@@ -1336,95 +1348,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_49
+      name: Standard_L_Edge
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a6ef87c85da8bef0800000000000000
-      internalID: -92133195544271199
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_50
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a53bd3e2243262b10800000000000000
-      internalID: 1956289855289668442
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_51
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9b3889e20d14e6a90800000000000000
-      internalID: -7318839982039727175
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_52
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfb5a559ff4c57dc0800000000000000
-      internalID: -3641788121657746437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_53
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 16
+        x: 0
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -1441,11 +1369,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_54
+      name: Standard_Filled
       rect:
         serializedVersion: 2
-        x: 96
-        y: 16
+        x: 16
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -1462,11 +1390,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_55
+      name: Standard_R_Edge
       rect:
         serializedVersion: 2
-        x: 112
-        y: 16
+        x: 32
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -1483,11 +1411,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_56
+      name: Standard_Mid_Vertical
       rect:
         serializedVersion: 2
-        x: 160
-        y: 16
+        x: 48
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -1504,11 +1432,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_57
+      name: Standard_BL_InnerEdge
       rect:
         serializedVersion: 2
-        x: 176
-        y: 16
+        x: 64
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -1525,11 +1453,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_58
+      name: Standard_BR_InnerEdge
       rect:
         serializedVersion: 2
-        x: 192
-        y: 16
+        x: 80
+        y: 64
         width: 16
         height: 16
       alignment: 0
@@ -1546,95 +1474,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_59
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cce92ef4f85efb730800000000000000
-      internalID: 4017181796321107660
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_60
+      name: Standard_BL_Edge
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3e743b28e8db8d880800000000000000
-      internalID: -8585904269806057501
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_61
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a5c3cbf1279c6a9e0800000000000000
-      internalID: -1610378324742488998
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_62
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5040b4cd5cd40af30800000000000000
-      internalID: 4584749932862964741
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_63
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -1651,11 +1495,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_64
+      name: Standard_B_Edge
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
+        x: 16
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -1672,11 +1516,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_65
+      name: Standard_BR_Edge
       rect:
         serializedVersion: 2
-        x: 80
-        y: 0
+        x: 32
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -1693,11 +1537,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_66
+      name: Standard_B_Vertical
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
+        x: 48
+        y: 48
         width: 16
         height: 16
       alignment: 0
@@ -1714,11 +1558,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_67
+      name: Standard_L_Horizontal
       rect:
         serializedVersion: 2
-        x: 112
-        y: 0
+        x: 0
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -1728,18 +1572,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3954ac71f7fa29d30800000000000000
-      internalID: 4436801543308199315
+      spriteID: c4cc8662db29a3b80800000000000000
+      internalID: -8414251612697473972
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_68
+      name: Standard_Mid_Horizontal
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
+        x: 16
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -1749,18 +1593,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2d7b14a32dea85c90800000000000000
-      internalID: -7180797387898505262
+      spriteID: e15b2dfd36e447970800000000000000
+      internalID: 8751706166751573278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_69
+      name: Standard_R_Horizontal
       rect:
         serializedVersion: 2
-        x: 176
-        y: 0
+        x: 32
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -1770,18 +1614,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 99e3c7ffe27826e50800000000000000
-      internalID: 6801147023207448217
+      spriteID: 59448679ec8baaaa0800000000000000
+      internalID: -6148899143778024299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WallTiles_70
+      name: Standard_Single
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
+        x: 48
+        y: 32
         width: 16
         height: 16
       alignment: 0
@@ -1791,29 +1635,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d645e1528c29a260800000000000000
-      internalID: 7109262425012389592
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WallTiles_71
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d824268085d5c9c60800000000000000
-      internalID: 7826232885142241933
+      spriteID: b31e87c41e651e6c0800000000000000
+      internalID: -4115913058789301957
       vertices: []
       indices: 
       edges: []
@@ -1828,7 +1651,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures:
-    - texture: {fileID: 2800000, guid: cba332ffc3282f646b2e3018cc747b10, type: 3}
+    - texture: {fileID: 2800000, guid: 8dbd14bdf83d8e2478fa0a6ca4243c15, type: 3}
       name: _NormalMap
   spritePackingTag: 
   pSDRemoveMatte: 0

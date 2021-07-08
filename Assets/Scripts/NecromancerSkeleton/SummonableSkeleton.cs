@@ -217,9 +217,19 @@ public class SummonableSkeleton : MonoBehaviour
         finishSummonEffect.Play();
         corpseSpriteRenderer.enabled = false;
 
-        GameObject s = Instantiate(skellyPrefab, transform.position, Quaternion.identity);
+        FinishSummon();
 
         Destroy(gameObject, summonTime);
+    }
+
+
+    private void FinishSummon()
+    {
+        GameObject s = Instantiate(skellyPrefab, transform.position, Quaternion.identity);
+        EquipmentManager em = s.transform.GetComponentInChildren<EquipmentManager>();
+
+        em.EquipKit(kit);
+        em.EquipTrinket(trinket);
     }
 
     private IEnumerator OpenSequence()

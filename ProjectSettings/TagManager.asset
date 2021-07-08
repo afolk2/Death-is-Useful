@@ -18,7 +18,7 @@ TagManager:
   - Items
   - Wall
   - Body
-  - 
+  - ContactHit
   - 
   - 
   - 
@@ -48,11 +48,11 @@ TagManager:
   - name: Items
     uniqueID: 453181019
     locked: 0
-  - name: Characters
-    uniqueID: 2577525477
-    locked: 0
   - name: Walls
     uniqueID: 1060967083
+    locked: 0
+  - name: Characters
+    uniqueID: 2577525477
     locked: 0
   - name: Ambience
     uniqueID: 2520503049
