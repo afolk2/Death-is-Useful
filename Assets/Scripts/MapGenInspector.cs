@@ -13,7 +13,7 @@ public class MapGenInspector:Editor
         MapGen mapGen = (MapGen)target;
         if (GUILayout.Button("Generate Map"))
         {
-            mapGen.GenerateMap();
+            mapGen.Init();
         }
     }
 }

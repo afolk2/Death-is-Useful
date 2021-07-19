@@ -1,21 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class MapGen : MonoBehaviour
 {
-    enum ExitDirection
-    {
-        North,
-        South,
-        East,
-        West
-    }
+    List<Room> rooms;
+    Dictionary<Vector2, MapTile> mapTiles;
 
-
-    // Used to store the last maps exit direction
-    ExitDirection exitDirection;
     [SerializeField]
     int minMapSize;
 
@@ -41,358 +34,309 @@ public class MapGen : MonoBehaviour
     [Range(0, 1)]
     float maxLargeSizePercent;
 
-    List<Vector2> mapLayout;
+    IEnumerator enumerator;
 
-    public bool debug;
+    [SerializeField]
+    int minNumSmall;
+    [SerializeField]
+    int maxNumSmall;
+    [SerializeField]
+    int minNumMedium;
+    [SerializeField]
+    int maxNumMedium;
+    [SerializeField]
+    int minNumLarge;
+    [SerializeField]
+    int maxNumLarge;
 
+    [SerializeField]
+    int mLength;
+    [SerializeField]
+    int mHeight;
 
     private void Awake()
     {
-        mapLayout = new List<Vector2>();
-        GenerateMap();
+        //Init();
     }
-
-    public void GenerateMap()
+    private void Update()
     {
-        //Length, width, and area of the map.
+        if (enumerator != null)
+        {
+            enumerator.MoveNext();
+        }
+    }
+    public void Init()
+    {
+        rooms = new List<Room>();
+        mapTiles = new Dictionary<Vector2, MapTile>();
+
         int length = Random.Range(minMapSize, maxMapSize);
-        int width = Random.Range(minMapSize, maxMapSize);
-        int area = length * width;
+        int height = Random.Range(minMapSize, maxMapSize);
+        mLength = length;
+        mHeight = height;
+        int area = length * height;
 
-        GenerateRooms(length, width, area);
+        for (int x = 0; x < length; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                MapTile.TileType tileType = MapTile.TileType.Floor;
+                if (x == 0 || x == length - 1 || y == 0 || y == height - 1)
+                {
+                    tileType = MapTile.TileType.Wall;
+                }
 
-        //CutExits();
+                mapTiles.Add(new Vector2(x, y), new MapTile(tileType, LayoutType.Default));
+            }
+        }
+
+        CreateRooms(length, height, area);
+
+        DrawMap();
     }
 
-    void GenerateRooms(int mapLength, int mapHeight, int mapArea)
+    void CreateRooms(int mapLength, int mapHeight, int mapArea)
     {
-        // Get the smallest room area (used for the smallest small room)
-        int minRoomArea = (int)(minRoomAreaPercent * mapArea);
-
-        // Max room areas.
+        int minRoomArea = minRoomWallSize * minRoomWallSize;
         int maxSmallArea = (int)(mapArea * maxSmallSizePercent);
         int maxMediumArea = (int)(mapArea * maxMediumSizePercent);
         int maxLargeArea = (int)(mapArea * maxLargeSizePercent);
 
-        // Clears the Console in between generating maps 
-        UsefulShortcuts.ClearConsole();
         float mapPerc = (float)(mapLength * mapHeight) / (maxMapSize * maxMapSize);
-        // Get a random number of small, medium, and large rooms based off of the map area and min/max room size.
-        int numSmall = Mathf.Max((int)(Random.Range(mapArea / maxSmallArea, mapArea / minRoomArea) * (float)mapPerc), 1);
 
-        int numMedium = Mathf.Max((int)(Random.Range(mapArea / maxMediumArea, mapArea / maxSmallArea) * (float)mapPerc), 1);
+        int numSmall = Random.Range(minNumSmall, maxNumSmall);
 
-        int numLarge = Mathf.Max((int)(Random.Range(mapArea / maxLargeArea, mapArea / maxMediumArea) * (float)mapPerc), 1);
+        int numMedium = Random.Range(minNumMedium, maxNumMedium);
 
-#if UNITY_EDITOR
-        if (debug)
+        int numLarge = Random.Range(minNumLarge, maxNumLarge);
+
+        LayoutType layoutType;
+
+        for (int i = 0; i < numSmall + numMedium + numLarge; i++)
         {
-            Debug.Log($"Map Percent: {mapPerc} Map Length: {mapLength} Map Height: {mapHeight}");
-            Debug.Log($"numSmall = Random.Range({mapArea / maxSmallArea},{mapArea / minRoomArea}) = {numSmall}");
-            Debug.Log($"numMedium = Random.Range({mapArea / maxMediumArea},{mapArea / maxSmallArea}) = {numMedium}");
-            Debug.Log($"numSmall = Random.Range({mapArea / maxLargeArea},{mapArea / maxMediumArea}) = {numLarge}");
-        }
-#endif
+            Vector2 roomPosition;
+            int x;
+            int y;
+            int length;
+            int height;
+            int maxLength;
+            int maxHeight;
 
-        List<Room> rooms = new List<Room>();
 
-        // Probably a better way to do this section
-        // Generating each sized room.
-        for (int i = 0; i < numSmall; i++)
-        {
-            rooms.Add(MakeRoom(mapLength, mapHeight, minRoomArea, maxSmallArea));
-            rooms[i].Init();
-        }
-        for (int i = numSmall; i < numSmall + numMedium; i++)
-        {
-            rooms.Add(MakeRoom(mapLength, mapHeight, maxSmallArea, maxMediumArea));
-            rooms[i].Init();
-        }
-        for (int i = numSmall + numMedium; i < numSmall + numMedium + numLarge; i++)
-        {
-            rooms.Add(MakeRoom(mapLength, mapHeight, maxMediumArea, maxLargeArea));
-            rooms[i].Init();
-        }
 
-        //ToDo: Tilesets for rooms.
-
-        //
-
-        #region Debug Room Creation
-
-        if (debug)
-        {
-            if (GameObject.Find("Debug Map Container"))
+            if (i < numSmall)
             {
-#if UNITY_EDITOR
-                DestroyImmediate(GameObject.Find("Debug Map Container"));
-#else
-            Destroy(GameObject.Find("Debug Map Container"));
-#endif
+                layoutType = LayoutType.Storage;
+
+                maxLength = (int)(mapLength * maxSmallSizePercent);
+
+                length = Random.Range(minRoomWallSize, maxLength);
+                maxHeight = Mathf.Min(maxSmallArea / length, mapHeight);
+                height = Random.Range(minRoomWallSize, maxHeight);
+
+
             }
-            GameObject debugMapContainer = new GameObject("Debug Map Container");
-
-            rooms.Sort();
-            rooms.Reverse();
-
-            for (int i = 0; i < rooms.Count; i++)
+            else if (i < numSmall + numMedium)
             {
-                GameObject debugRoomContainer = new GameObject($"Room {i}- Area: {rooms[i].area} L/H: {rooms[i].length}/{rooms[i].height}");
-                debugRoomContainer.transform.parent = debugMapContainer.transform;
+                layoutType = LayoutType.DinningHall;
+                maxLength = (int)(mapLength * maxMediumSizePercent);
 
-                for (int x = (int)rooms[i].startingPosition.x; x < rooms[i].startingPosition.x + rooms[i].length; x++)
+                length = Random.Range(minRoomWallSize, maxLength);
+                maxHeight = Mathf.Min(maxMediumArea / length, mapHeight);
+                height = Random.Range(minRoomWallSize, maxHeight);
+            }
+            else
+            {
+                layoutType = LayoutType.TortureChamber;
+
+                maxLength = (int)(mapLength * maxLargeSizePercent);
+
+                length = Random.Range(minRoomWallSize, maxLength);
+                maxHeight = Mathf.Min(maxLargeArea / length, mapHeight);
+                height = Random.Range(minRoomWallSize, maxHeight);
+            }
+
+
+            x = Random.Range(0, mapLength - length);
+            y = Random.Range(0, mapHeight - height);
+
+            roomPosition = new Vector2(x, y);
+
+            rooms.Add(new Room(length, height, layoutType, roomPosition));
+        }
+    }
+
+    void DrawMap()
+    {
+        rooms.Sort();
+
+
+
+        if (GameObject.Find("Room Container"))
+        {
+            DestroyImmediate(GameObject.Find("Room Container"));
+        }
+        GameObject roomContainer = new GameObject("Room Container");
+
+        #region room gen old
+        for (int r = 0; r < rooms.Count; r++)
+        {
+            Vector2 rPosition = rooms[r].position;
+            int rLength = rooms[r].length;
+            int rHeight = rooms[r].height;
+
+            for (int x = 0; x < rLength; x++)
+            {
+                for (int y = 0; y < rHeight; y++)
                 {
-                    for (int y = (int)rooms[i].startingPosition.y; y < rooms[i].startingPosition.y + rooms[i].height; y++)
+                    if (r > 0)
                     {
-                        if (rooms[i].layout.Contains(new Vector2(x, y)))
+                        for (int rcheck = r - 1; rcheck >= 0; rcheck--)
                         {
-                            // Draw Wall
-                            GameObject debugWall = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                            debugWall.transform.position = new Vector3(x, y);
-                            debugWall.transform.parent = debugRoomContainer.transform;
+                            if (!rooms[rcheck].Contains(new Vector2(x, y) + rPosition))
+                            {
+                                MapTile.TileType tileType = MapTile.TileType.Floor;
+                                if (x == 0 || x == rLength - 1 || y == 0 || y == rHeight - 1)
+                                {
+                                    tileType = MapTile.TileType.Wall;
+                                }
+                                mapTiles[new Vector2(x, y) + rPosition] = new MapTile(tileType, rooms[r].layoutType);
+                            }
                         }
                     }
-                }
-                foreach (Vector2 location in rooms[i].layout)
-                {
-
+                    else
+                    {
+                        MapTile.TileType tileType = MapTile.TileType.Floor;
+                        if (x == 0 || x == rLength - 1 || y == 0 || y == rHeight - 1)
+                        {
+                            tileType = MapTile.TileType.Wall;
+                        }
+                        mapTiles[new Vector2(x, y) + rPosition] = new MapTile(tileType, rooms[r].layoutType);
+                    }
                 }
             }
+
+            GameObject room = new GameObject($"Room {r + 1}");
+
+            BoxCollider2D collider2D = room.AddComponent<BoxCollider2D>();
+            collider2D.size = new Vector2(rLength - 1, rHeight - 1);
+            room.transform.position = rPosition + collider2D.size / 2;
+            room.transform.parent = roomContainer.transform;
         }
 
         #endregion
 
-        // Check for and cut intersecting rooms.
-        CutRooms(rooms, mapLength, mapHeight);
-
-        // Creates some quads to view the map layout for now.
-        DrawMap();
-    }
-
-    Room MakeRoom(int mapLength, int mapHeight, int minRoomArea, int maxRoomArea)
-    {
-        Room newRoom;
-        // random area based on min and max room area.
-        int area = Random.Range(minRoomArea, maxRoomArea);
-        // the start position (lower left) of the room
-        Vector2 start = new Vector2(
-            Random.Range(0, mapLength),
-            Random.Range(0, mapHeight));
-
-        if (start.x >= mapLength - minRoomWallSize || start.y >= mapHeight - minRoomWallSize)
-        {
-            // Empty Room
-            newRoom = new Room(new Vector2(0, 0), 0, 0);
-        }
-        else
-        {
-            // Random value between 5 and 1/5 of the area or whatever length is left over from our starting position, whichever is smaller. Keeps the rooms within the bounds of the map.
-            int length = Mathf.Min(Random.Range(minRoomWallSize, area / minRoomWallSize), mapLength - (int)start.x);
-            // similar to the length, but we use the length to make sure we don't go over our area.
-            int height = Mathf.Min(Random.Range(5, Mathf.Max(minRoomWallSize, area / length)), mapHeight - (int)start.y);
-
-            newRoom = new Room(start, length, height);
-        }
-
-
-        return newRoom;
-    }
-
-
-    private void UpdateMap(List<Room> rooms, int mapLength, int mapHeight)
-    {
-        // used while in editor since the map isn't created in awake.
-        if (mapLayout != null)
-        {
-            mapLayout.Clear();
-        }
-        else
-        {
-            mapLayout = new List<Vector2>();
-        }
-
-
-        foreach (Room room in rooms)
-        {
-            // find every vector2 in room that is not inside the map list and add it.
-            mapLayout.AddRange(
-                room.layout.FindAll(
-                    item => !mapLayout.Contains(item)));
-        }
-
-
-        // Outline the map
-        for (int x = 0; x <= mapLength; x++)
-        {
-            for (int y = 0; y <= mapHeight; y++)
-            {
-                if (x == mapLength || x == 0 || y == mapHeight || y == 0)
-                {
-                    Vector2 mapOutlineWall = new Vector2(x, y);
-                    // if the mapLayout doesn't already contain the location we are looking at then add it (may be added from a room bordering the map bounds)
-                    if (!mapLayout.Contains(mapOutlineWall))
-                    {
-                        mapLayout.Add(mapOutlineWall);
-                    }
-                }
-
-            }
-        }
-    }
-    private void DrawMap()
-    {
-        // Destroys the map GameObject that contains the quads to generate a new map.
-        if (GameObject.Find("map"))
-        {
-#if UNITY_EDITOR
-            DestroyImmediate(GameObject.Find("map"));
-#else
-            Destroy(GameObject.Find("map"));
-#endif
-        }
-        GameObject mapContainer = new GameObject("map");
-
-        // Create the quads at each location in the mapLayout and set the parent to the mapContainer.
-        foreach (Vector2 location in mapLayout)
-        {
-            GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            wall.transform.position = location;
-            wall.transform.parent = mapContainer.transform;
-        }
-    }
-
-    void CutRooms(List<Room> rooms, int mapLength, int mapHeight)
-    {
-        rooms.Sort();
+        #region room gen new
         rooms.Reverse();
-        for (int i = 1; i < rooms.Count; i++)
+        for (int i = 0; i < rooms.Count; i++)
         {
-            for (int j = i - 1; j >= 0; j--)
+            Vector2 position = rooms[i].position;
+            LayoutType layoutType = rooms[i].layoutType;
+
+            for (int x = 0; x < rooms[i].length; x++)
             {
-                if (rooms[i].Intersects(rooms[j]))
+                for (int y = 0; y < rooms[i].height; y++)
                 {
-                    rooms[i].CutFrom(rooms[j]);
-                    UpdateMap(rooms, mapLength, mapHeight);
-                    rooms[j].CalculateArea();
-                }
-            }
-        }
-    }
-
-    void CutExits()
-    {
-        ///ToDo: Cut exit from opposite wall of exitDirection
-        ///Match position of the current maps exit to the new maps exit.
-        ///directionExit = 1 of 3 remaining exits
-        ///cut exit from wall of exitDirection
-    }
-
-    internal class Room : System.IComparable<Room>
-    {
-        public Vector2 startingPosition { get; private set; }
-        public int length { get; private set; }
-        public int height { get; private set; }
-        public int area;
-        public List<Vector2> layout;
-
-        //TileSet tileSet; Enum?
-
-        public Room(Vector2 startingPosition, int length, int height)
-        {
-            this.startingPosition = startingPosition;
-            this.length = length;
-            this.height = height;
-
-            area = (length - 2) * (height - 2) + 4;
-        }
-
-        public bool Intersects(Room b)
-        {
-            int count = 0;
-            if (area > 0 || b.area > 0)
-            {
-
-                foreach (Vector2 location in layout)
-                {
-                    // if b and a contain the same location
-                    if (b.layout.Contains(location))
+                    MapTile.TileType tileType = MapTile.TileType.Floor;
+                    if (x == 0 || x == rooms[i].length - 1 || y == 0 || y == rooms[i].height - 1)
                     {
-                        // increment a counter
-                        count++;
+                        tileType = MapTile.TileType.Wall;
                     }
-                }
-                // if the counter is greater than 0 then they intersect.
 
-            }
-            return count > 0;
-        }
-
-        public void CutFrom(Room b)
-        {
-            ///ToDo: Cut the intersecting wall of this from section B
-
-            // Remove all locations that are inside this room from room b.
-            b.layout.RemoveAll(location => location.x >= startingPosition.x && location.x <= startingPosition.x + length && location.y >= startingPosition.y && location.y <= startingPosition.y + height);
-
-            // Set the area that was removed inside b to the tileSet of this room.
-        }
-
-        /// <summary>
-        /// Estimates remaining area
-        /// </summary>
-        public void CalculateArea()
-        {
-            if(layout.Count > 0 && length >0 && height > 0)
-            {
-                area = (layout.Count / (length * 2 + height * 2)) * ((length - 2) * (height - 2) + 4);
-            }
-            
-        }
-
-        public void Init()
-        {
-            //generating our layout based on the starting position.
-
-            layout = new List<Vector2>();
-            int xStop = length + (int)startingPosition.x;
-            int yStop = height + (int)startingPosition.y;
-            for (int x = (int)startingPosition.x; x <= xStop; x++)
-            {
-                for (int y = (int)startingPosition.y; y <= yStop; y++)
-                {
-                    if (x == startingPosition.x || x == xStop || y == startingPosition.y || y == yStop)
-                    {
-                        layout.Add(new Vector2(x, y));
-                    }
+                    MapTile newTile = new MapTile(tileType, layoutType);
+                    mapTiles[new Vector2(x, y) + position] = newTile;
                 }
             }
         }
-
-        public int CompareTo(Room other)
+        #endregion
+        if (GameObject.Find("Map Container"))
         {
-            int value = 0;
-            if (area < other.area)
+            DestroyImmediate(GameObject.Find("Map Container"));
+        }
+        GameObject mapContainer = new GameObject("Map Container");
+
+        foreach (KeyValuePair<Vector2, MapTile> tile in mapTiles)
+        {
+            if (tile.Value.tileType == MapTile.TileType.Wall)
             {
-                value = -1;
+                GameObject newWall = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                newWall.transform.position = tile.Key;
+                newWall.transform.parent = mapContainer.transform;
             }
-            else if (area > other.area)
+            else
             {
-                value = 1;
+                GameObject newFloor = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                newFloor.transform.position = tile.Key;
+                newFloor.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                newFloor.transform.parent = mapContainer.transform;
             }
-            return value;
         }
     }
 
 }
 
-static class UsefulShortcuts
+public class Room : System.IComparable<Room>
 {
-    public static void ClearConsole()
+    public LayoutType layoutType { get; private set; }
+
+    public Vector2 position { get; private set; }
+
+    int area;
+
+    public int length { get; private set; }
+    public int height { get; private set; }
+
+    public Room(int length, int height, LayoutType layoutType, Vector2 position)
     {
-        // This simply does "LogEntries.Clear()" the long way:
-        var logEntries = System.Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
-        var clearMethod = logEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-        clearMethod.Invoke(null, null);
+        this.length = length;
+        this.height = height;
+        area = length * height;
+        this.layoutType = layoutType;
+        this.position = position;
     }
 
+    public bool Contains(Vector2 compare)
+    {
+        return (compare.x > this.position.x && compare.x < this.position.x + length) && (compare.y > this.position.y && compare.y < this.position.y + height);
+    }
+    public int CompareTo(Room other)
+    {
+        int value = 0;
+        if (area < other.area)
+        {
+            value = -1;
+        }
+        else if (area > other.area)
+        {
+            value = 1;
+        }
+        return value;
+    }
+
+}
+public struct MapTile
+{
+    public enum TileType { Wall, Floor }
+    public TileType tileType;
+    public LayoutType layoutType;
+
+
+
+    public MapTile(TileType tileType, LayoutType layoutType)
+    {
+        this.tileType = tileType;
+        this.layoutType = layoutType;
+    }
+}
+
+/// <summary>
+/// Probably replace this with a scriptableObject or something similar?
+/// </summary>
+public enum LayoutType
+{
+    Default,
+    Storage,
+    TortureChamber,
+    DinningHall,
+    BossRoom
 }
