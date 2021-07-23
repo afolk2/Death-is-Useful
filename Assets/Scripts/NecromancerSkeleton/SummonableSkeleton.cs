@@ -230,6 +230,9 @@ public class SummonableSkeleton : MonoBehaviour
 
         em.EquipKit(kit);
         em.EquipTrinket(trinket);
+
+
+        MinionManager.settings.AddMinion(s.GetComponent<MinionController>());
     }
 
     private IEnumerator OpenSequence()

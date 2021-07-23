@@ -36,7 +36,7 @@ MonoBehaviour:
   Path: DeathIsUseful/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637547170393298845
+  lastModified: 637546243025108544
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -63,7 +63,7 @@ MonoBehaviour:
   - {fileID: 5143897381751307624}
   StringsBanks:
   - {fileID: -711124826771210977}
-  stringsBankWriteTime: 637547170393298845
+  stringsBankWriteTime: 637546243025108544
   cacheVersion: 6
 --- !u!114 &2018803470296409718
 MonoBehaviour:
@@ -99,7 +99,7 @@ MonoBehaviour:
   Path: DeathIsUseful/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637547170393772171
+  lastModified: 637546243025088549
   LoadResult: 0
   FileSizes: []
   Exists: 1

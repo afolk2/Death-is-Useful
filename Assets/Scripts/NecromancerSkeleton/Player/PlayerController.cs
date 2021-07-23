@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleInteractAction()
     {
-        necroInput.Interact();
+        skeletonInput.Interact();
     }
     #endregion
 
@@ -94,13 +94,10 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     [SerializeField] private Camera mainCamera;
-    private SkeletonInput skeletonInput;
-    private NecromancerInput necroInput;
+    private NecromancerInput skeletonInput;
     private void Start()
     {
-        skeletonInput = GetComponent<SkeletonInput>();
-        necroInput = GetComponent<NecromancerInput>();
-
+        skeletonInput = GetComponent<NecromancerInput>();
         if (mainCamera == null)
             mainCamera = Camera.main;
     }

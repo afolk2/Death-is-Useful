@@ -59,7 +59,7 @@ public class SkeletonKit : MonoBehaviour
     public bool blocking = false;
 
     //Get all of the data and assign them to their respective struct. Reset the current offset to the base.
-    private void Start()
+    private void Awake()
     {
         this.mainHand.handTransform = mainHandTransform;
         this.offHand.handTransform = offHandTransform;

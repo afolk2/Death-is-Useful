@@ -1,0 +1,66 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// Holds all input variables and can be adjusted by either and AIController or PlayerController.
+/// </summary>
+public class NecromancerInput : MonoBehaviour
+{
+    [Header("Input Variables")]
+    public Vector2 moveInput;
+    public Vector2 mousePositionInput;
+
+    private SkeletonMovement movement;
+    private SkeletonAim skeletonAim;
+    private EquipmentManager equipment;
+    private MinionManager minionManager;
+    [SerializeField] LayerMask interactLayer;
+    private void Start()
+    {
+        movement = GetComponent<SkeletonMovement>();
+        skeletonAim = GetComponent<SkeletonAim>();
+        equipment = GetComponentInChildren<EquipmentManager>();
+        minionManager = MinionManager.settings;
+    }
+
+    private void Update()
+    {
+        movement.Move(moveInput);
+        skeletonAim.DoAim(mousePositionInput);
+    }
+
+    public void MainPress()
+    {
+        equipment.UseMain();
+    }
+
+    public void MainRelease()
+    {
+        equipment.ReleaseMain();
+    }
+
+    public void OffPress()
+    {
+        equipment.UseOff();
+    }
+
+    public void OffRelease()
+    {
+        equipment.ReleaseOff();
+    }
+
+    public void Interact()
+    {
+        Collider2D c = Physics2D.OverlapPoint(transform.position, interactLayer);
+        SummonableSkeleton summon = c.GetComponentInParent<SummonableSkeleton>();
+        if (summon != null)
+        {
+            if (minionManager.CheckSummonCost(summon.cost))
+            {
+                summon.Spawn();
+                minionManager.ChangePower(-summon.cost);
+            }
+        }
+    }
+}
