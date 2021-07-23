@@ -8473,13 +8473,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 107349263902462536, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3528524008490343616, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 6173590597714188441, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1687258584}
     - target: {fileID: 6173590597714188446, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6173590597714188446, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8524,6 +8532,18 @@ PrefabInstance:
     - target: {fileID: 6173590597714188447, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_Name
       value: Necromancer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7989046547505309543, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102688864686375730, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500151880463665375, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8919269597991334938, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: testItem
@@ -8793,7 +8813,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1687258586
 MonoBehaviour:
@@ -8886,7 +8906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3807826488032810165, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3807826488032810165, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14881,7 +14901,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1884055728197160830, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1884055728197160830, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14957,7 +14977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: blockArcWidth
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: blockStrength
@@ -14973,7 +14993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: hitMask.m_Bits
-      value: 384
+      value: 4096
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: anticipationTime
@@ -14989,7 +15009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: mainHand.itemOffset.x
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5229041434596048100, guid: a5dd6e9930ea2b148b6154686735f656, type: 3}
       propertyPath: swordOffsetOverride.x
@@ -15018,7 +15038,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2856717149720418904, guid: 5a562895983dfc64c8ac93b57ee19261, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2856717149720418904, guid: 5a562895983dfc64c8ac93b57ee19261, type: 3}
       propertyPath: m_LocalPosition.x

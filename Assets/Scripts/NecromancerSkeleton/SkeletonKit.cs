@@ -210,7 +210,7 @@ public class SkeletonKit : MonoBehaviour
             t = Mathf.InverseLerp(0f, lineRes, i);
 
             Vector2 tPoint = MathHelpers.GetFreeParabolaPoint(start, end, height / 2, t, mainHandTransform.up);
-            edgeTPoints.Add(tPoint - new Vector2(transform.localPosition.x, transform.localPosition.y));
+            edgeTPoints.Add(tPoint - new Vector2(transform.position.x, transform.position.y));
             lineRenderer.SetPosition(i, tPoint);
         }
 

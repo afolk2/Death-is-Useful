@@ -55,15 +55,10 @@ public class AIFollowPlayer : IAIState
         else if (aiPath.desiredVelocity.x > 0.1)
         {
             bodySprite.flipX = false;
-        }
-        
+        }    
         bodySprite.sortingOrder = Mathf.RoundToInt(rb.position.y * -1000);
         //Set move animator float based on move input
-
-        Debug.Log(aiPath.velocity.normalized.magnitude);
-
         bodyAnim.SetFloat("Move", aiPath.velocity.magnitude > 0.9f ? 1 : 0);
-
         aim.DoAim(player.position);
     }
     public void Exit()
