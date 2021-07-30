@@ -33,10 +33,24 @@ public class SkeletonKit : MonoBehaviour
     /// Assignable transform, needs to be assigned in order for the script to find the neccessary data points.
     /// </summary>
     [SerializeField] private Transform mainHandTransform, offHandTransform;
+
+    public void SetMainSprite(Sprite sprite)
+    {
+        mainHand.itemSprite.sprite = sprite;
+    }
+
+    public void SetSecondarySprite(Sprite sprite)
+    {
+        offHand.itemSprite.sprite = sprite;
+    }
+
     /// <summary>
     /// Adjusts the scale of the stretching the arms of the creature based on the distance of their aim.
     /// </summary>
     [SerializeField] private float baseAimStretch;
+
+    
+
     private float currentAimStretch;
 
 
@@ -172,7 +186,10 @@ public class SkeletonKit : MonoBehaviour
         StartCoroutine(Blocking(blockStrength, blockArcHeight, blockArcWidth, counterTime));
     }
 
-
+    public Transform GetHandTransform(bool main)
+    {
+        return main ? mainHandTransform : offHandTransform;
+    }
 
     private IEnumerator Blocking(int blockStrength, float blockArcHeight, float blockArcWidth, float counterTime)
     {

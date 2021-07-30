@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &742682628991101217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787368810070326955}
+  - component: {fileID: 742682628991101222}
+  m_Layer: 0
+  m_Name: Ranger Kit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &787368810070326955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742682628991101217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.23, y: -5.62, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &742682628991101222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742682628991101217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2e822fa7487c2146a0a7610d3d2fc77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainHand:
+    itemSprite: {fileID: -1201772774456808696, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+    itemActiveSprite: {fileID: 21300000, guid: 6424cc2958362cb4fa56e573ea0bab5c, type: 3}
+    itemOffset: {x: 0, y: 0}
+    itemDoesAim: 1
+    itemDoesAimMinion: 1
+    spriteLayer: 5
+  offHand:
+    itemSprite: {fileID: 0}
+    itemActiveSprite: {fileID: 21300000, guid: 492fb7d90aff8be4bbc26353f7d9c215, type: 3}
+    itemOffset: {x: 0, y: 0}
+    itemDoesAim: 1
+    itemDoesAimMinion: 0
+    spriteLayer: 0
+  dropSprite: {fileID: 0}
+  bowDamage: 15
+  projectileSpeed: 12
+  reloadTime: 2
+  boltPrefab: {fileID: 2761135022508442303, guid: ec29a8083e5caa54fb7da05cdca72d45, type: 3}
+  crossbowSprites:
+  - {fileID: -1201772774456808696, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: 205875399782649657, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: -3552810177446524320, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: -1941547418039532216, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: -768189873267688741, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: 7552171852435577075, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: -8640192826289928088, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: -436482370215722106, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: -5589910593672960625, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  - {fileID: 4661674496653646746, guid: c36022cedb6ad3b409727adb16ba353d, type: 3}
+  ammo: 10
+  damage: 2
+  reach: 1
+  swingTime: 0.2
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 4096
