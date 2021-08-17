@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class MapGen : MonoBehaviour
 {
@@ -34,8 +33,6 @@ public class MapGen : MonoBehaviour
     [Range(0, 1)]
     float maxLargeSizePercent;
 
-    IEnumerator enumerator;
-
     [SerializeField]
     int minNumSmall;
     [SerializeField]
@@ -54,19 +51,26 @@ public class MapGen : MonoBehaviour
     [SerializeField]
     int mHeight;
 
+    [SerializeField]
+    int seed;
+    [SerializeField]
+    bool useSeed;
+
+    [SerializeField]
+    GameObject[] prefabs;
     private void Awake()
     {
-        //Init();
-    }
-    private void Update()
-    {
-        if (enumerator != null)
-        {
-            enumerator.MoveNext();
-        }
+        Init();
+        //StartCoroutine(Init());
     }
     public void Init()
     {
+        if (!useSeed)
+        {
+            seed = Random.Range(0, 999999999);
+        }
+        Random.InitState(seed);
+
         rooms = new List<Room>();
         mapTiles = new Dictionary<Vector2, MapTile>();
 
@@ -86,23 +90,118 @@ public class MapGen : MonoBehaviour
                     tileType = MapTile.TileType.Wall;
                 }
 
-                mapTiles.Add(new Vector2(x, y), new MapTile(tileType, LayoutType.Default));
+                mapTiles.Add(new Vector2(x, y), new MapTile(tileType, LayoutType.Default, new Vector2(x, y)));
             }
         }
 
         CreateRooms(length, height, area);
-
+        UpdateMapTiles();
         DrawMap();
+        //yield return new WaitForSeconds(5f);
+        CarveDoorways();
+        //CarveExits();
+        DrawMap();
+    }
+
+    private void CarveDoorways()
+    {
+        List<List<Vector2>> roomPositions = new List<List<Vector2>>();
+        List<Vector2> unConnected = mapTiles.Where(item => item.Value.tileType == MapTile.TileType.Floor).Select(item => item.Key).ToList();
+
+        int listI = 0;
+
+        //While there is unconnected tiles
+        while (unConnected.Count > 0)
+        {
+            // Create a new room
+            roomPositions.Add(new List<Vector2>());
+            // Add the first tile from unconnected to the room
+            roomPositions[listI].Add(unConnected[0]);
+            //remove the first tile from unconnected
+            unConnected.Remove(unConnected[0]);
+
+            // check each tile in the room
+            for (int i = 0; i < roomPositions[listI].Count; i++)
+            {
+                // get the neighbours of the tile
+                foreach (MapTile item in mapTiles[roomPositions[listI][i]].neighbours)
+                {
+                    if (item.tileType == MapTile.TileType.Floor)
+                    {
+                        // If the neighbour is not already in the room list AND the neigbour is in the unconnected list
+                        if (!roomPositions[listI].Contains(item.position) && unConnected.Contains(item.position))
+                        {
+                            // Add the neighbour to the room
+                            roomPositions[listI].Add(item.position);
+                            // Remove the neighbour from the unconnected list.
+                            unConnected.Remove(item.position);
+                        }
+                    }
+                }
+            }
+            listI++;
+        }
+
+        List<List<Vector2>> possibleDoors = new List<List<Vector2>>();
+
+        for (int i = 0; i < roomPositions.Count; i++)
+        {
+            possibleDoors.Add(new List<Vector2>());
+            foreach (Vector2 floorTile in roomPositions[i])
+            {
+                foreach (MapTile neighbour in mapTiles[floorTile].neighbours)
+                {
+                    if (!possibleDoors[i].Contains(neighbour.position))
+                    {
+                        if (neighbour.tileType == MapTile.TileType.Wall)
+                        {
+                            if (neighbour.position.x != 0 && neighbour.position.y != 0 && neighbour.position.x != mLength - 1 && neighbour.position.y != mHeight - 1)
+                            {
+                                possibleDoors[i].Add(neighbour.position);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+
+        int roomI = 0;
+        while (possibleDoors.Count > 1)
+        {
+            roomI++;
+            if (roomI == possibleDoors.Count)
+            {
+                roomI = 1;
+            }
+            // shared wall tiles between two rooms.
+            List<Vector2> sharedDoors = possibleDoors[0].FindAll(item => possibleDoors[roomI].Contains(item));
+            if (sharedDoors.Count > 0)
+            {
+                // pick a random door index
+                int index = Random.Range(0, sharedDoors.Count - 1);
+                // edit that door tile to make it a floor
+                MapTile editTile = mapTiles[sharedDoors[index]];
+                editTile.tileType = MapTile.TileType.Floor;
+                mapTiles[sharedDoors[index]] = editTile;
+
+                // add the second rooms possible doors to the first room ( no duplicates)
+                possibleDoors[0] = possibleDoors[0].Union(possibleDoors[roomI]).ToList();
+                // remove the tiles that we just made a floor
+                possibleDoors[0].Remove(sharedDoors[index]);
+
+                possibleDoors.RemoveAt(roomI--);
+
+
+            }
+
+            
+
+        }
     }
 
     void CreateRooms(int mapLength, int mapHeight, int mapArea)
     {
-        int minRoomArea = minRoomWallSize * minRoomWallSize;
-        int maxSmallArea = (int)(mapArea * maxSmallSizePercent);
-        int maxMediumArea = (int)(mapArea * maxMediumSizePercent);
-        int maxLargeArea = (int)(mapArea * maxLargeSizePercent);
-
-        float mapPerc = (float)(mapLength * mapHeight) / (maxMapSize * maxMapSize);
 
         int numSmall = Random.Range(minNumSmall, maxNumSmall);
 
@@ -122,27 +221,24 @@ public class MapGen : MonoBehaviour
             int maxLength;
             int maxHeight;
 
-
-
             if (i < numSmall)
             {
                 layoutType = LayoutType.Storage;
 
                 maxLength = (int)(mapLength * maxSmallSizePercent);
+                maxHeight = (int)(mapHeight * maxSmallSizePercent);
 
                 length = Random.Range(minRoomWallSize, maxLength);
-                maxHeight = Mathf.Min(maxSmallArea / length, mapHeight);
                 height = Random.Range(minRoomWallSize, maxHeight);
-
-
             }
             else if (i < numSmall + numMedium)
             {
                 layoutType = LayoutType.DinningHall;
+
                 maxLength = (int)(mapLength * maxMediumSizePercent);
+                maxHeight = (int)(mapHeight * maxMediumSizePercent);
 
                 length = Random.Range(minRoomWallSize, maxLength);
-                maxHeight = Mathf.Min(maxMediumArea / length, mapHeight);
                 height = Random.Range(minRoomWallSize, maxHeight);
             }
             else
@@ -150,9 +246,9 @@ public class MapGen : MonoBehaviour
                 layoutType = LayoutType.TortureChamber;
 
                 maxLength = (int)(mapLength * maxLargeSizePercent);
+                maxHeight = (int)(mapHeight * maxLargeSizePercent);
 
                 length = Random.Range(minRoomWallSize, maxLength);
-                maxHeight = Mathf.Min(maxLargeArea / length, mapHeight);
                 height = Random.Range(minRoomWallSize, maxHeight);
             }
 
@@ -166,67 +262,9 @@ public class MapGen : MonoBehaviour
         }
     }
 
-    void DrawMap()
+    void UpdateMapTiles()
     {
         rooms.Sort();
-
-
-
-        if (GameObject.Find("Room Container"))
-        {
-            DestroyImmediate(GameObject.Find("Room Container"));
-        }
-        GameObject roomContainer = new GameObject("Room Container");
-
-        #region room gen old
-        for (int r = 0; r < rooms.Count; r++)
-        {
-            Vector2 rPosition = rooms[r].position;
-            int rLength = rooms[r].length;
-            int rHeight = rooms[r].height;
-
-            for (int x = 0; x < rLength; x++)
-            {
-                for (int y = 0; y < rHeight; y++)
-                {
-                    if (r > 0)
-                    {
-                        for (int rcheck = r - 1; rcheck >= 0; rcheck--)
-                        {
-                            if (!rooms[rcheck].Contains(new Vector2(x, y) + rPosition))
-                            {
-                                MapTile.TileType tileType = MapTile.TileType.Floor;
-                                if (x == 0 || x == rLength - 1 || y == 0 || y == rHeight - 1)
-                                {
-                                    tileType = MapTile.TileType.Wall;
-                                }
-                                mapTiles[new Vector2(x, y) + rPosition] = new MapTile(tileType, rooms[r].layoutType);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        MapTile.TileType tileType = MapTile.TileType.Floor;
-                        if (x == 0 || x == rLength - 1 || y == 0 || y == rHeight - 1)
-                        {
-                            tileType = MapTile.TileType.Wall;
-                        }
-                        mapTiles[new Vector2(x, y) + rPosition] = new MapTile(tileType, rooms[r].layoutType);
-                    }
-                }
-            }
-
-            GameObject room = new GameObject($"Room {r + 1}");
-
-            BoxCollider2D collider2D = room.AddComponent<BoxCollider2D>();
-            collider2D.size = new Vector2(rLength - 1, rHeight - 1);
-            room.transform.position = rPosition + collider2D.size / 2;
-            room.transform.parent = roomContainer.transform;
-        }
-
-        #endregion
-
-        #region room gen new
         rooms.Reverse();
         for (int i = 0; i < rooms.Count; i++)
         {
@@ -243,39 +281,110 @@ public class MapGen : MonoBehaviour
                         tileType = MapTile.TileType.Wall;
                     }
 
-                    MapTile newTile = new MapTile(tileType, layoutType);
-                    mapTiles[new Vector2(x, y) + position] = newTile;
+                    MapTile test = mapTiles[new Vector2(x, y) + position];
+                    test.layoutType = layoutType;
+                    test.tileType = tileType;
+                    mapTiles[new Vector2(x, y) + position] = test;
+                    //MapTile newTile = new MapTile(tileType, layoutType, new Vector2(x, y) + position);
+                    //mapTiles[new Vector2(x, y) + position] = newTile;
                 }
             }
         }
-        #endregion
+
+        //Create neighbour lists.
+        for (int x = 0; x < mLength; x++)
+        {
+            for (int y = 0; y < mHeight; y++)
+            {
+                Vector2 position = new Vector2(x, y);
+                MapTile newTile = mapTiles[position];
+
+                if (x > 0)
+                {
+                    newTile.neighbours.Add(mapTiles[position + Vector2.left]);
+                }
+                if (x < mLength - 1)
+                {
+                    newTile.neighbours.Add(mapTiles[position + Vector2.right]);
+                }
+                if (y > 0)
+                {
+                    newTile.neighbours.Add(mapTiles[position + Vector2.down]);
+                }
+                if (y < mHeight - 1)
+                {
+                    newTile.neighbours.Add(mapTiles[position + Vector2.up]);
+                }
+
+                mapTiles[position] = newTile;
+            }
+        }
+    }
+
+    void DrawMap()
+    {
+        if (GameObject.Find("Room Container"))
+        {
+            DestroyImmediate(GameObject.Find("Room Container"));
+        }
+        GameObject roomContainer = new GameObject("Room Container");
+
         if (GameObject.Find("Map Container"))
         {
             DestroyImmediate(GameObject.Find("Map Container"));
         }
         GameObject mapContainer = new GameObject("Map Container");
 
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            GameObject go = new GameObject($"Room {i}");
+            go.transform.position = rooms[i].position + new Vector2(rooms[i].length / 2, rooms[i].height / 2);
+            BoxCollider2D collider2D = go.AddComponent<BoxCollider2D>();
+            collider2D.size = new Vector2(rooms[i].length, rooms[i].height);
+            go.transform.parent = roomContainer.transform;
+        }
+
         foreach (KeyValuePair<Vector2, MapTile> tile in mapTiles)
         {
+            GameObject go;
             if (tile.Value.tileType == MapTile.TileType.Wall)
             {
-                GameObject newWall = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                newWall.transform.position = tile.Key;
-                newWall.transform.parent = mapContainer.transform;
+                go = GameObject.CreatePrimitive(PrimitiveType.Quad);
             }
             else
             {
-                GameObject newFloor = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                newFloor.transform.position = tile.Key;
-                newFloor.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-                newFloor.transform.parent = mapContainer.transform;
+                switch (tile.Value.layoutType)
+                {
+                    
+                    case LayoutType.Storage:
+                        go = Instantiate(prefabs[2]);
+                        break;
+                    case LayoutType.TortureChamber:
+                        go = Instantiate(prefabs[0]);
+                        break;
+                    case LayoutType.DinningHall:
+                        go = Instantiate(prefabs[1]);
+                        break;
+                    case LayoutType.BossRoom:
+                        go = Instantiate(prefabs[0]);
+                        break;
+                    default:
+                        go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        break;
+                }
+                
+            }
+            go.transform.position = tile.Key;
+            go.transform.parent = mapContainer.transform;
+            go.name = tile.Key.ToString();
+            if (tile.Value.tileType == MapTile.TileType.Floor)
+            {
+                go.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             }
         }
     }
 
-}
-
-public class Room : System.IComparable<Room>
+    public class Room : System.IComparable<Room>
 {
     public LayoutType layoutType { get; private set; }
 
@@ -319,13 +428,17 @@ public struct MapTile
     public enum TileType { Wall, Floor }
     public TileType tileType;
     public LayoutType layoutType;
+    public Vector2 position;
+
+    public List<MapTile> neighbours;
 
 
-
-    public MapTile(TileType tileType, LayoutType layoutType)
+    public MapTile(TileType tileType, LayoutType layoutType, Vector2 position)
     {
         this.tileType = tileType;
         this.layoutType = layoutType;
+        neighbours = new List<MapTile>();
+        this.position = position;
     }
 }
 
@@ -339,4 +452,5 @@ public enum LayoutType
     TortureChamber,
     DinningHall,
     BossRoom
+}
 }
