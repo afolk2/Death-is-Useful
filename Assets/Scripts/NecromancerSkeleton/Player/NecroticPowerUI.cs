@@ -10,7 +10,7 @@ public class NecroticPowerUI : MonoBehaviour
     private Image meterBase;
     private Image redLeft, redRight, blueLeft, blueRight;
 
-    private void Start()
+    private void Awake()
     {
         meterBase = transform.GetChild(0).GetComponent<Image>();
 
@@ -25,7 +25,7 @@ public class NecroticPowerUI : MonoBehaviour
 
     private IEnumerator ColorPulse()
     {
-        float t = 0;
+        float t;
         while (true)
         {
             t = 0;

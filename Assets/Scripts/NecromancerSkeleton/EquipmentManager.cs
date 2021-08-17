@@ -30,7 +30,7 @@ public class EquipmentManager : MonoBehaviour
     [Header("--- Testing ---")]
     public Kit testItem;
 #endif
-    private void Start()
+    private void Awake()
     {
         skeletonKit = GetComponent<SkeletonKit>();
         skeletonAim = GetComponentInParent<SkeletonAim>();

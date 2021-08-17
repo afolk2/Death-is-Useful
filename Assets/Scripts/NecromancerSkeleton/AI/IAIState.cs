@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IAIState
 {
-    public void Update(SkeletonInput input);
+    public void Update();
     public void Exit();
 }

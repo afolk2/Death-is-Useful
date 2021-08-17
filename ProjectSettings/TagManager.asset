@@ -17,10 +17,10 @@ TagManager:
   - Enemies
   - Items
   - Wall
-  - Body
+  - PlayerCorpse
   - ContactHit
-  - 
-  - 
+  - ActiveItems
+  - Projectile
   - 
   - 
   - 

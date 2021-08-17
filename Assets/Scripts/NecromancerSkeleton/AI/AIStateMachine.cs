@@ -21,9 +21,10 @@ public class AIStateMachine
         }
     }
 
-    public void Update(SkeletonInput input)
+    public void Update()
     {
-        state.Update(input);
+        if (state != null)
+            state.Update();
     }
 
     public void ExitState()
