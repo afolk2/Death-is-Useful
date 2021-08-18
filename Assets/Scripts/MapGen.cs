@@ -70,7 +70,7 @@ public class MapGen : MonoBehaviour
             seed = Random.Range(0, 999999999);
         }
         Random.InitState(seed);
-
+        Debug.Log(seed);
         rooms = new List<Room>();
         mapTiles = new Dictionary<Vector2, MapTile>();
 
@@ -149,30 +149,58 @@ public class MapGen : MonoBehaviour
             possibleDoors.Add(new List<Vector2>());
             foreach (Vector2 floorTile in roomPositions[i])
             {
-                foreach (MapTile neighbour in mapTiles[floorTile].neighbours)
-                {
-                    if (!possibleDoors[i].Contains(neighbour.position))
-                    {
-                        if (neighbour.tileType == MapTile.TileType.Wall)
-                        {
-                            if (neighbour.position.x != 0 && neighbour.position.y != 0 && neighbour.position.x != mLength - 1 && neighbour.position.y != mHeight - 1)
-                            {
-                                possibleDoors[i].Add(neighbour.position);
-                            }
-                        }
-                    }
 
-                }
+                possibleDoors[i].AddRange(GetPossibleDoorsFromFloorTile(floorTile));
+                //foreach (MapTile neighbour in mapTiles[floorTile].neighbours)
+                //{
+                //    if (!possibleDoors[i].Contains(neighbour.position))
+                //    {
+                //        if (neighbour.tileType == MapTile.TileType.Wall)
+                //        {
+                //            if (neighbour.position.x != 0 && neighbour.position.y != 0 && neighbour.position.x != mLength - 1 && neighbour.position.y != mHeight - 1)
+                //            {
+                //                possibleDoors[i].Add(neighbour.position);
+                //            }
+                //        }
+                //    }
+
+                //}
             }
         }
 
+        
+
         int roomI = 0;
+        bool foundDoor = false;
         while (possibleDoors.Count > 1)
         {
             roomI++;
             if (roomI == possibleDoors.Count)
             {
                 roomI = 1;
+                // if we looped through all of rooms and didn't find a door to carve in any
+                if(!foundDoor)
+                {
+                    // pick a random possible door from the compared possible door list.
+                    int index = Random.Range(0, possibleDoors[1].Count);
+                    // make that wall tile a floor tile
+                    MapTile editTile = mapTiles[possibleDoors[1][index]];
+                    editTile.tileType = MapTile.TileType.Floor;
+                    mapTiles[possibleDoors[1][index]] = editTile;
+
+                    // get the list of possible doors from the floor tile we just created
+                    List<Vector2> newPosibilities = GetPossibleDoorsFromFloorTile(possibleDoors[1][index]);
+                    // add those possible doors with no duplicates into the list of possible doors from the compared room
+                    foreach (Vector2 possibleDoor in newPosibilities)
+                    {
+                        if(!possibleDoors[1].Contains(possibleDoor))
+                        {
+                            possibleDoors[1].Add(possibleDoor);
+                        }
+                    }
+                    possibleDoors[1].RemoveAt(index);
+                }
+                foundDoor = false;
             }
             // shared wall tiles between two rooms.
             List<Vector2> sharedDoors = possibleDoors[0].FindAll(item => possibleDoors[roomI].Contains(item));
@@ -192,12 +220,33 @@ public class MapGen : MonoBehaviour
 
                 possibleDoors.RemoveAt(roomI--);
 
-
+                foundDoor = true;
             }
 
             
 
         }
+    }
+
+    public List<Vector2> GetPossibleDoorsFromFloorTile(Vector2 floorTilePosition)
+    {
+        List<Vector2> possibleDoors = new List<Vector2>();
+
+        foreach (MapTile neighbour in mapTiles[floorTilePosition].neighbours)
+        {
+            if (!possibleDoors.Contains(neighbour.position))
+            {
+                if (neighbour.tileType == MapTile.TileType.Wall)
+                {
+                    if (neighbour.position.x != 0 && neighbour.position.y != 0 && neighbour.position.x != mLength - 1 && neighbour.position.y != mHeight - 1)
+                    {
+                        possibleDoors.Add(neighbour.position);
+                    }
+                }
+            }
+
+        }
+        return possibleDoors;
     }
 
     void CreateRooms(int mapLength, int mapHeight, int mapArea)
@@ -225,8 +274,8 @@ public class MapGen : MonoBehaviour
             {
                 layoutType = LayoutType.Storage;
 
-                maxLength = (int)(mapLength * maxSmallSizePercent);
-                maxHeight = (int)(mapHeight * maxSmallSizePercent);
+                maxLength = (int)(mapLength * maxSmallSizePercent) - 2;
+                maxHeight = (int)(mapHeight * maxSmallSizePercent) - 2;
 
                 length = Random.Range(minRoomWallSize, maxLength);
                 height = Random.Range(minRoomWallSize, maxHeight);
@@ -235,8 +284,8 @@ public class MapGen : MonoBehaviour
             {
                 layoutType = LayoutType.DinningHall;
 
-                maxLength = (int)(mapLength * maxMediumSizePercent);
-                maxHeight = (int)(mapHeight * maxMediumSizePercent);
+                maxLength = (int)(mapLength * maxMediumSizePercent)-2;
+                maxHeight = (int)(mapHeight * maxMediumSizePercent)-2;
 
                 length = Random.Range(minRoomWallSize, maxLength);
                 height = Random.Range(minRoomWallSize, maxHeight);
@@ -245,16 +294,16 @@ public class MapGen : MonoBehaviour
             {
                 layoutType = LayoutType.TortureChamber;
 
-                maxLength = (int)(mapLength * maxLargeSizePercent);
-                maxHeight = (int)(mapHeight * maxLargeSizePercent);
+                maxLength = (int)(mapLength * maxLargeSizePercent)-2;
+                maxHeight = (int)(mapHeight * maxLargeSizePercent)-2;
 
                 length = Random.Range(minRoomWallSize, maxLength);
                 height = Random.Range(minRoomWallSize, maxHeight);
             }
 
 
-            x = Random.Range(0, mapLength - length);
-            y = Random.Range(0, mapHeight - height);
+            x = Random.Range(2, mapLength - length - 2);
+            y = Random.Range(2, mapHeight - height - 2);
 
             roomPosition = new Vector2(x, y);
 
@@ -338,7 +387,9 @@ public class MapGen : MonoBehaviour
         for (int i = 0; i < rooms.Count; i++)
         {
             GameObject go = new GameObject($"Room {i}");
-            go.transform.position = rooms[i].position + new Vector2(rooms[i].length / 2, rooms[i].height / 2);
+            float x = rooms[i].length % 2 == 0? -0.5f : 0f;
+            float y = rooms[i].height % 2 == 0 ? -0.5f:0f;
+            go.transform.position = rooms[i].position + new Vector2(rooms[i].length / 2 + x, rooms[i].height / 2 + y);
             BoxCollider2D collider2D = go.AddComponent<BoxCollider2D>();
             collider2D.size = new Vector2(rooms[i].length, rooms[i].height);
             go.transform.parent = roomContainer.transform;
