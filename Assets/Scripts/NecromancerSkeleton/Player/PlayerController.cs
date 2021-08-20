@@ -32,6 +32,18 @@ public class PlayerController : MonoBehaviour
 
         controls.Player.Interact.started += ctx => HandleInteractAction();
         controls.Player.Interact.Enable();
+
+        controls.Player.CommandOne.performed += ctx => HandleCommandAction(0);
+        controls.Player.CommandOne.Enable();
+
+        controls.Player.CommandTwo.performed += ctx => HandleCommandAction(1);
+        controls.Player.CommandTwo.Enable();
+
+        controls.Player.CommandThree.performed += ctx => HandleCommandAction(2);
+        controls.Player.CommandThree.Enable();
+
+        controls.Player.CommandFour.performed += ctx => HandleCommandAction(3);
+        controls.Player.CommandFour.Enable();
     }
 
     private void OnDisable()
@@ -55,36 +67,53 @@ public class PlayerController : MonoBehaviour
 
         controls.Player.Interact.started -= ctx => HandleInteractAction();
         controls.Player.Interact.Disable();
+
+        controls.Player.CommandOne.performed -= ctx => HandleCommandAction(0);
+        controls.Player.CommandOne.Disable();
+
+        controls.Player.CommandTwo.performed -= ctx => HandleCommandAction(1);
+        controls.Player.CommandTwo.Disable();
+
+        controls.Player.CommandThree.performed -= ctx => HandleCommandAction(2);
+        controls.Player.CommandThree.Disable();
+
+        controls.Player.CommandFour.performed -= ctx => HandleCommandAction(3);
+        controls.Player.CommandFour.Disable();
     }
     #region Input Handle Methods
 
     private void HandleMove(Vector2 input)
     {
-        skeletonInput.moveInput = input;
+        necroInput.moveInput = input;
     }
 
     private void HandlePrimaryAction(float input)
     {
         if (input > 0)
-            skeletonInput.MainPress();
+            necroInput.MainPress();
         else
-            skeletonInput.MainRelease();
+            necroInput.MainRelease();
     }
     private void HandleSecondaryAction(float input)
     {
         if (input > 0)
-            skeletonInput.OffPress();
+            necroInput.OffPress();
         else
-            skeletonInput.OffRelease();
+            necroInput.OffRelease();
     }
     private void HandleAim(Vector2 input)
     {
-        skeletonInput.mousePositionInput = mainCamera.ScreenToWorldPoint(input);
+        necroInput.mousePositionInput = mainCamera.ScreenToWorldPoint(input);
     }
 
     private void HandleInteractAction()
     {
-        skeletonInput.Interact();
+        necroInput.Interact();
+    }
+
+    private void HandleCommandAction(int commandIndex)
+    {
+        necroInput.MakeCommand(commandIndex, necroInput.mousePositionInput);
     }
     #endregion
 
@@ -94,10 +123,10 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     [SerializeField] private Camera mainCamera;
-    private NecromancerInput skeletonInput;
+    private NecromancerInput necroInput;
     private void Start()
     {
-        skeletonInput = GetComponent<NecromancerInput>();
+        necroInput = GetComponent<NecromancerInput>();
         if (mainCamera == null)
             mainCamera = Camera.main;
     }

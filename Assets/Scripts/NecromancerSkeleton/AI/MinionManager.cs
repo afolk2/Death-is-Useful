@@ -26,15 +26,16 @@ public class MinionManager : MonoBehaviour
    
 
     private Transform necromancer;
+    public enum MinionType { Melee, Ranged, Caster, Tank }
 
     [SerializeField] private NecroticPowerUI powerBar;
     [SerializeField] private int maxPowerLevel;
     private int powerLevel;
     private List<MinionController> activeMinions;
     public float minimumFollowDistance, slowFollowDistance;
+
     private void Start()
     {
-        
         powerLevel = maxPowerLevel;
         RefreshUI();
     }
@@ -44,6 +45,22 @@ public class MinionManager : MonoBehaviour
         return necromancer;
     }
 
+    //TODO implement different groups of minions
+    public void MoveHere(int commandIndex, Vector2 pos)
+    {
+        for (int i = 0; i < activeMinions.Count; i++)
+        {
+            activeMinions[i].sm.ChangeState(new MoveToPoint(activeMinions[i] ,pos));
+        }
+    }
+
+    public void FollowPlayer()
+    {
+        for (int i = 0; i < activeMinions.Count; i++)
+        {
+            activeMinions[i].sm.ChangeState(new AIFollowPlayer(activeMinions[i]));
+        }
+    }
 
     public void AddMinion(MinionController newMinion)
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,5 +63,15 @@ public class NecromancerInput : MonoBehaviour
                 minionManager.ChangePower(-summon.cost);
             }
         }
+    }
+
+   
+
+    public void MakeCommand(int commandIndex, Vector2 mousePositionInput)
+    {
+        if (Vector2.Distance(mousePositionInput, transform.position) < 2)
+            minionManager.FollowPlayer();
+        else
+            minionManager.MoveHere(commandIndex, mousePositionInput);
     }
 }

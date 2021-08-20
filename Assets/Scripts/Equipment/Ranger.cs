@@ -27,7 +27,6 @@ public class Ranger : Kit
 
     public override void MainAction(EquipmentManager manager)
     {
-        
         if (manager.skeletonKit.idle)
         {
             if (loaded)
@@ -36,10 +35,6 @@ public class Ranger : Kit
                 loaded = false;
                 StartCoroutine(FireBolt(manager.skeletonKit));
                 manager.skeletonKit.SetMainSprite(crossbowSprites[0]);
-
-
-
-                
             }
             else
             {
@@ -105,6 +100,7 @@ public class Ranger : Kit
     {
         if (manager.skeletonKit.idle && !reloading)
         {
+            manager.skeletonKit.SetSecondarySprite(null);
             manager.skeletonKit.SimpleMelee(damage, reach, swingTime, offHand, hitMask, backSlash, true);
             backSlash = !backSlash;
         }

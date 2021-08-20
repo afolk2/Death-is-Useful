@@ -145,6 +145,8 @@ public class SkeletonKit : MonoBehaviour
         bool hit = false;
         float t = 0;
 
+        //mainHand.itemSprite.sprite = data.itemSprite;
+
         while (t < swingTime)
         {
             if (!hit)
