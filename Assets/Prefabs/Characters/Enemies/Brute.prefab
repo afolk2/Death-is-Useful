@@ -45,7 +45,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.2}
-  m_Size: {x: 3.58, y: 0.41}
+  m_Size: {x: 3, y: 0.3}
   m_Direction: 1
 --- !u!1 &6617036164157023304
 GameObject:
@@ -328,12 +328,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 2
-  radius: 2
-  height: 0.01
+  radius: 2.5
+  height: 1
   repathRate: 0.5
   canSearch: 1
   canMove: 1
-  maxSpeed: 5
+  maxSpeed: 4
   gravity: {x: NaN, y: NaN, z: NaN}
   groundMask:
     serializedVersion: 2

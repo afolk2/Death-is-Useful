@@ -1,6 +1,6 @@
 using UnityEngine;
 using Pathfinding;
-public class AIFollowPlayer : IAIState
+public class MinionFollowPlayer : IAIState
 {
     MinionManager minionManager;
     Rigidbody2D rb;
@@ -9,17 +9,10 @@ public class AIFollowPlayer : IAIState
     SkeletonAim aim;
     AIPath aiPath;
     AIDestinationSetter destinationSetter;
-
-    float nextWayPointDistance = 3f;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
-
-    //Vector2 lastDestination;
-
     private Animator bodyAnim;
     private SpriteRenderer bodySprite;
 
-    public AIFollowPlayer(MinionController minion)
+    public MinionFollowPlayer(MinionController minion)
     {
         minionManager = MinionManager.settings;
 

@@ -2,32 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-public class MoveToPoint : IAIState
+public class MinionMoveToPoint : IAIState
 {
     MinionManager minionManager;
     Rigidbody2D rb;
-
-    Transform player;
     SkeletonAim aim;
     AIPath aiPath;
     AIDestinationSetter destinationSetter;
-
-    float nextWayPointDistance = 3f;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
-
-    //Vector2 lastDestination;
 
     private Animator bodyAnim;
     private SpriteRenderer bodySprite;
 
     private Transform dest;
 
-    public MoveToPoint(MinionController minion, Vector2 pos)
+    public MinionMoveToPoint(MinionController minion, Transform newCommandTransform)
     {
-        dest = new GameObject(null).transform;
-        dest.position = pos;
-
+        this.dest = newCommandTransform;
         minionManager = MinionManager.settings;
 
         aiPath = minion.GetComponent<AIPath>();
@@ -37,8 +27,6 @@ public class MoveToPoint : IAIState
 
         bodyAnim = minion.transform.GetChild(1).GetChild(0).GetComponent<Animator>();
         bodySprite = minion.transform.GetChild(1).GetChild(0).GetComponent<SpriteRenderer>();
-
-        //seeker.StartPath(rb.position, player.position, OnPathComplete);
 
         destinationSetter.enabled = true;
         aiPath.enabled = true;
@@ -67,7 +55,7 @@ public class MoveToPoint : IAIState
     }
 
     public void Exit()
-    { 
+    {
 
     }
 }

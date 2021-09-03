@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-public class MinionController : MonoBehaviour
+using System;
+
+public class BatController : MonoBehaviour
 {
-    public AIStateMachine sm;
+
+    AIStateMachine sm;
+
+
 
     void Start()
     {
         sm = new AIStateMachine();
-        sm.ChangeState(new AIFollowPlayer(this));
+        sm.ChangeState(new EnemyChaseClosestTarget(this));
     }
 
     // Update is called once per frame
@@ -17,4 +22,7 @@ public class MinionController : MonoBehaviour
     {
         sm.Update();
     }
+
+
+    
 }
