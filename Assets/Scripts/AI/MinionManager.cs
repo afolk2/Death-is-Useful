@@ -60,7 +60,7 @@ public class MinionManager : MonoBehaviour
 
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].sm.ChangeState(new MinionMoveToPoint(activeMinions[i] , movePoint));
+            //activeMinions[i].sm.ChangeState(new MinionMoveToPoint(activeMinions[i] , movePoint));
         }
     }
 
@@ -72,7 +72,7 @@ public class MinionManager : MonoBehaviour
 
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].sm.ChangeState(new MinionFollowPlayer(activeMinions[i]));
+            //activeMinions[i].sm.ChangeState(new MinionFollowPlayer(activeMinions[i]));
         }
     }
 
