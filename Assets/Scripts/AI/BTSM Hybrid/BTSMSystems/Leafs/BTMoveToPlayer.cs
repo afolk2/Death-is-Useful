@@ -9,12 +9,27 @@ public class BTMoveToPlayer : BTNode
     private AIPath path;
     protected Transform Destination { get; set; }
     public float speed;
+    private float minDistance;
     public BTMoveToPlayer(BehaviorTree t) : base(t)
     {
-        Destination = null;
-        object o;
-        bool found = Tree.Blackboard.TryGetValue("DestinationSetter", out o);
+        minDistance = MinionManager.settings.minimumFollowDistance;
 
+        //GET PLAYER TRANSFORM
+        object o;
+        bool found = Tree.Blackboard.TryGetValue("PlayerTransform", out o);
+
+        if (found)
+        {
+            Destination = (Transform)o;
+        }
+        else
+        {
+            Debug.LogWarning(Tree.transform.name + "Could not access player position, manually getting from singleton (FIX ME)");
+            Destination = MinionManager.settings.GetPlayer();
+        }
+
+        //GET AIDESTINATIONSETTER AND AIPATH
+        found = Tree.Blackboard.TryGetValue("DestinationSetter", out o); //Note: replaced o with new object could probably make this more readable
         if (found)
         {
             destSetter = (AIDestinationSetter)o;
@@ -27,39 +42,24 @@ public class BTMoveToPlayer : BTNode
             destSetter = Tree.gameObject.AddComponent<AIDestinationSetter>();
             path = Tree.gameObject.AddComponent<AIPath>();
         }
-
-        o = null;
-        found = Tree.Blackboard.TryGetValue("PlayerTransform", out o);
-
-        if (found)
-        {
-            Destination = (Transform)o;
-        }
-        else
-        {
-            Debug.LogWarning(Tree.transform.name + "Could not access player position, manually getting from singleton (FIX ME)");
-            Destination = MinionManager.settings.GetPlayer();
-        }
-
     }
 
     public override Result Execute()
     {
         //if we've arrived at random position
-        if (path.reachedDestination)
+        if (path.remainingDistance < minDistance)
         {
             return Result.Success;
         }
         else
         {
-            if (path.canMove && path.canSearch)
+            if (path.canMove && path.canSearch && Destination != null)
                 return Result.Running;
             else
             {
                 Debug.Log("Cant Find path or Move");
                 return Result.Failure;
             }
-               
         }
     }
 }

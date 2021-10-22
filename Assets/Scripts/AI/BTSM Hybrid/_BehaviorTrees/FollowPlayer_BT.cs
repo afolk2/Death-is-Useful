@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class FollowPlayer_BT : BehaviorTree
 {
-    public FollowPlayer_BT()
-    {
-
-    }
-
     public override void StartTree(BTFiniteStateMachine sm)
     {
         base.StartTree(sm);
 
         Blackboard.Add("PlayerTransform", MinionManager.settings.GetPlayer());
         Blackboard.Add("DestinationSetter", GetComponent<Pathfinding.AIDestinationSetter>());
-        mRoot = new BTRepeator(this, new BTSequencer(this, new BTNode[] { new BTMoveToPlayer(this)}));
+        Blackboard.Add("Path", GetComponent<Pathfinding.AIPath>());
+        Blackboard.Add("Transform", transform);
+        mRoot = new BTRepeator(this, new BTParallel(this, new BTNode[] { new BTMoveToPlayer(this), new BTAnimateMovement(this)}));
     }
 
     public override void ExitTree()

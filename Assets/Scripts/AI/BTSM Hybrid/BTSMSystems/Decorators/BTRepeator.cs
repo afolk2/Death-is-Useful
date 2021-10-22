@@ -10,7 +10,7 @@ public class BTRepeator : BTDecorator
 
     public override Result Execute()
     {
-        Debug.Log("Child return: " + Child.Execute());
+        Child.Execute();
         return Result.Running;
     }
 }

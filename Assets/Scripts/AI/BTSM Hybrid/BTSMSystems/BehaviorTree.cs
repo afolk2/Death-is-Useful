@@ -53,7 +53,6 @@ public abstract class BehaviorTree : MonoBehaviour
         BTNode.Result result = Root.Execute();
         while (result == BTNode.Result.Running)
         {
-            Debug.Log("Root Result: " + result);
             yield return null;
             result = Root.Execute();
         }

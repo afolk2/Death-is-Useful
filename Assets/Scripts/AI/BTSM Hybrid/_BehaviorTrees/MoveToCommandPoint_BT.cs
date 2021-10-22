@@ -13,7 +13,7 @@ public class MoveToCommandPoint_BT : BehaviorTree
     {
         base.StartTree(sm);
         Blackboard.Add("DestinationSetter", GetComponent<Pathfinding.AIDestinationSetter>());
-        mRoot = new BTRepeator(this, new BTSequencer(this, new BTNode[] { new BTMoveToTarget(this, target)}));
+        mRoot = new BTRepeator(this, new BTParallel(this, new BTNode[] { new BTMoveToTarget(this, target), new BTAnimateMovement(this)}));
     }
 
     public override void ExitTree()
