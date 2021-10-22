@@ -4,7 +4,7 @@ using UnityEngine;
 using Pathfinding;
 public class MinionController : MonoBehaviour
 {
-    public AIStateMachine sm;
+    public SimpleAIStateMachine sm;
 
     void Start()
     {

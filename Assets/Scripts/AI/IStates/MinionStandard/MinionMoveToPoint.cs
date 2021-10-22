@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-public class MinionMoveToPoint : IAIState
+public class MinionMoveToPoint : IAITask
 {
     MinionManager minionManager;
     Rigidbody2D rb;
@@ -32,8 +32,10 @@ public class MinionMoveToPoint : IAIState
         aiPath.enabled = true;
 
         destinationSetter.target = dest;
+
+        Run();
     }
-    public void Update()
+    protected override void Update()
     {
         UpdateAnim();
     }
@@ -53,8 +55,7 @@ public class MinionMoveToPoint : IAIState
         bodyAnim.SetFloat("Move", aiPath.velocity.magnitude > 0.9f ? 1 : 0);
         aim.DoAim(dest.position);
     }
-
-    public void Exit()
+    public override void End()
     {
 
     }

@@ -1,37 +1,78 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIStateMachine
+public class AIStateMachine : MonoBehaviour
 {
-    private IAIState state;
-    public void ChangeState(IAIState newState)
+    private List<IAITask> tasks;
+
+    public IAITask GetTask(IAITask searchedTask)
     {
-        if (newState != null)
-        {
-            if (state != null && state != newState)
-            {
-                state.Exit();
-            }
-            state = newState;
-        }
-        else
-        {
-            ExitState();
-        }
+        return Array.Find(tasks.ToArray(), task => task.taskID == searchedTask.taskID);
     }
 
-    public void Update()
+    public IAITask GetTask(string searchedTask)
     {
-        if (state != null)
-            state.Update();
+        return Array.Find(tasks.ToArray(), task => task.taskID == searchedTask);
     }
 
-    public void ExitState()
+    private int SearchForTask(IAITask searchedTask)
     {
-        if (state != null)
-            state.Exit();
+        int taskIndex = -1;
+        taskIndex = Array.FindIndex(tasks.ToArray(), task => task.taskID == searchedTask.taskID);
 
-        state = null;
+        return taskIndex;
+    }
+
+    public void ChangeUpdateTime(IAITask changingTask, float newSpeed)
+    {
+        int taskIndex = SearchForTask(changingTask);
+        if(taskIndex == -1)
+        {
+            Debug.LogError("Couldn't find " + changingTask);
+            return;
+        }
+
+        tasks[taskIndex].updateState = IAITask.UpdateState.custom;
+        tasks[taskIndex].updateTime = newSpeed;
+
+    }
+    public void ChangeToDelta(IAITask changingTask)
+    {
+        int taskIndex = SearchForTask(changingTask);
+        if (taskIndex == -1)
+        {
+            Debug.LogError("Couldn't find " + changingTask);
+            return;
+        }
+        tasks[taskIndex].updateState = IAITask.UpdateState.delta;
+    }
+    public void ChangeToFixed(IAITask changingTask)
+    {
+        int taskIndex = SearchForTask(changingTask);
+        if (taskIndex == -1)
+        {
+            Debug.LogError("Couldn't find " + changingTask);
+            return;
+        }
+
+        tasks[taskIndex].updateState = IAITask.UpdateState.fixedDelta;
+    }
+    public void AddTask(IAITask newState)
+    {
+        tasks.Add(newState);
+    }
+
+    public void RemoveState(IAITask task)
+    {
+        int taskIndex = SearchForTask(task);
+        if (taskIndex == -1)
+        {
+            Debug.LogError("Couldn't find " + task);
+            return;
+        }
+
+        tasks.Remove(tasks[taskIndex]);
     }
 }

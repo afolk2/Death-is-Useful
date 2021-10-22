@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class EnemyChaseClosestTarget : IAIState
+public class EnemyChaseClosestTarget : IAITask
 {
     [SerializeField] private float detectionRadius;
     [SerializeField] private LayerMask detectMask;
+    [SerializeField] private float distanceToAttack;
 
     Rigidbody2D rb;
     Transform target;
@@ -15,10 +16,10 @@ public class EnemyChaseClosestTarget : IAIState
     private SpriteRenderer bodySprite;
     private Animator anim;
 
-    BatController c;
+    EnemyAIBase c;
     private Transform transform;
     // Start is called before the first frame update
-    public EnemyChaseClosestTarget(BatController controller)
+    public EnemyChaseClosestTarget(EnemyAIBase controller)
     {
         c = controller;
         transform = c.transform;
@@ -33,7 +34,7 @@ public class EnemyChaseClosestTarget : IAIState
         destinationSetter.target = target;
     }
 
-    void IAIState.Update()
+    protected override void Update()
     {
         CheckForTarget();
         if (target != null)
@@ -47,6 +48,8 @@ public class EnemyChaseClosestTarget : IAIState
             anim.SetBool("Aggresive", false);
         }
         UpdateAnim();
+        if (target != null)
+            CheckTargetDistance();
     }
 
     private void CheckForTarget()
@@ -74,6 +77,14 @@ public class EnemyChaseClosestTarget : IAIState
         }
     }
 
+    private void CheckTargetDistance()
+    {
+        if(Vector2.Distance(target.position, transform.position) < distanceToAttack)
+        {
+            //.ChangeState(new MeleeCombat(c, target));
+        }
+    }
+
     private void UpdateAnim()
     {
         //Flip sprite if mouse is to the left of the character so the sprite faces the right way
@@ -87,11 +98,9 @@ public class EnemyChaseClosestTarget : IAIState
         }
         bodySprite.sortingOrder = Mathf.RoundToInt(rb.position.y * -1000);
     }
-    public void Exit()
+
+    public override void End()
     {
-        
+
     }
-
-
-    
 }

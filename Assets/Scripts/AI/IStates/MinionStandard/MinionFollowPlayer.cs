@@ -1,6 +1,6 @@
 using UnityEngine;
 using Pathfinding;
-public class MinionFollowPlayer : IAIState
+public class MinionFollowPlayer : IAITask
 {
     MinionManager minionManager;
     Rigidbody2D rb;
@@ -33,11 +33,15 @@ public class MinionFollowPlayer : IAIState
 
         destinationSetter.target = player;
     }
-    public void Update()
+
+    
+
+    protected override void Update()
     {
         //MoveToTarget();
         UpdateAnim();
     }
+
     private void UpdateAnim()
     {
         //Flip sprite if mouse is to the left of the character so the sprite faces the right way
@@ -54,7 +58,8 @@ public class MinionFollowPlayer : IAIState
         bodyAnim.SetFloat("Move", aiPath.velocity.magnitude > 0.9f ? 1 : 0);
         aim.DoAim(player.position);
     }
-    public void Exit()
+
+    public override void End()
     {
 
     }

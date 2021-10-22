@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
+using System;
 
-public interface IAIState
+public class BatController : EnemyAIBase
 {
-    public void Update();
-    public void Exit();
+
 }
