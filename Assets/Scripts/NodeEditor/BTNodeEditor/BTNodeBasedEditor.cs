@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-namespace NodeEditorBase
+namespace BTNodeEditor
 {
-    public class NodeBasedEditor : EditorWindow
+    public class BTNodeBasedEditor : EditorWindow
     {
 
         private List<NENode> nodes;
@@ -20,11 +20,11 @@ namespace NodeEditorBase
         private NEConnectionPoint selectedInPoint;
         private NEConnectionPoint selectedOutPoint;
 
-        [MenuItem("Window/Node Editor/Node Based Editor")]
+        [MenuItem("Window/Node Editor/Behavior Tree Editor")]
         private static void OpenWindow()
         {
-            NodeBasedEditor window = GetWindow<NodeBasedEditor>();
-            window.titleContent = new GUIContent("Node Based Editor");
+            BTNodeBasedEditor window = GetWindow<BTNodeBasedEditor>();
+            window.titleContent = new GUIContent("Behavior Tree Editor");
         }
 
         private void OnEnable()

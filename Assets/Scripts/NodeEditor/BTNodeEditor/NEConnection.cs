@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-namespace NodeEditorBase
+namespace BTNodeEditor
 {
     public class NEConnection : MonoBehaviour
     {

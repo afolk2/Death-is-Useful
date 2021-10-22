@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEditor;
-namespace NodeEditorBase
+namespace BTNodeEditor
 {
     public class NENode
     {
