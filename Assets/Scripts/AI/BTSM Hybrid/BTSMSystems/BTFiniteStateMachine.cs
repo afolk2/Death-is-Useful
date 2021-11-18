@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,15 +12,26 @@ public class BTFiniteStateMachine
         aiCore = core;
     }
     public BehaviorTree activeTree;
-    public void ChangeTree(BehaviorTree newTree)
+
+    public void ChangeTree(Type tree)
     {
-        if(newTree != null)
+        if (tree != null)
         {
-            if(activeTree != null && newTree != activeTree)
+            //Check to see if currently using another behavior tree
+            if (activeTree != null)
             {
+                if (tree == activeTree.GetType())
+                {
+                    //Catch in case already using this behavior tree
+                    return;
+                }
+
                 activeTree.ExitTree();
                 aiCore.RemoveTree(activeTree);
             }
+
+            BehaviorTree newTree = (BehaviorTree)aiCore.gameObject.AddComponent(tree);
+
             activeTree = newTree;
             activeTree.StartTree(this);
         }

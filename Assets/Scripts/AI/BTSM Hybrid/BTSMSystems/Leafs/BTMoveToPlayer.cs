@@ -12,11 +12,11 @@ public class BTMoveToPlayer : BTNode
     private float minDistance;
     public BTMoveToPlayer(BehaviorTree t) : base(t)
     {
-        minDistance = MinionManager.settings.minimumFollowDistance;
+        minDistance = MinionManager.manager.minimumFollowDistance;
 
         //GET PLAYER TRANSFORM
         object o;
-        bool found = Tree.Blackboard.TryGetValue("PlayerTransform", out o);
+        bool found = Tree.Blackboard.TryGetValue("FollowTransform", out o);
 
         if (found)
         {
@@ -25,7 +25,7 @@ public class BTMoveToPlayer : BTNode
         else
         {
             Debug.LogWarning(Tree.transform.name + "Could not access player position, manually getting from singleton (FIX ME)");
-            Destination = MinionManager.settings.GetPlayer();
+            Destination = MinionManager.manager.GetPlayerMoveGuide();
         }
 
         //GET AIDESTINATIONSETTER AND AIPATH

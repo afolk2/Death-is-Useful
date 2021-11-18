@@ -33,16 +33,16 @@ public class PlayerController : MonoBehaviour
         controls.Player.Interact.started += ctx => HandleInteractAction();
         controls.Player.Interact.Enable();
 
-        controls.Player.CommandOne.performed += ctx => HandleCommandAction(0);
+        controls.Player.CommandOne.performed += ctx => HandleCommandAction(ctx.ReadValue<float>(), 0);
         controls.Player.CommandOne.Enable();
 
-        controls.Player.CommandTwo.performed += ctx => HandleCommandAction(1);
+        controls.Player.CommandTwo.performed += ctx => HandleCommandAction(ctx.ReadValue<float>(), 1);
         controls.Player.CommandTwo.Enable();
 
-        controls.Player.CommandThree.performed += ctx => HandleCommandAction(2);
+        controls.Player.CommandThree.performed += ctx => HandleCommandAction(ctx.ReadValue<float>(), 2);
         controls.Player.CommandThree.Enable();
 
-        controls.Player.CommandFour.performed += ctx => HandleCommandAction(3);
+        controls.Player.CommandFour.performed += ctx => HandleCommandAction(ctx.ReadValue<float>(), 3);
         controls.Player.CommandFour.Enable();
     }
 
@@ -68,16 +68,16 @@ public class PlayerController : MonoBehaviour
         controls.Player.Interact.started -= ctx => HandleInteractAction();
         controls.Player.Interact.Disable();
 
-        controls.Player.CommandOne.performed -= ctx => HandleCommandAction(0);
+        controls.Player.CommandOne.performed -= ctx => HandleCommandAction(ctx.ReadValue<float>(), 0);
         controls.Player.CommandOne.Disable();
 
-        controls.Player.CommandTwo.performed -= ctx => HandleCommandAction(1);
+        controls.Player.CommandTwo.performed -= ctx => HandleCommandAction(ctx.ReadValue<float>(), 1);
         controls.Player.CommandTwo.Disable();
 
-        controls.Player.CommandThree.performed -= ctx => HandleCommandAction(2);
+        controls.Player.CommandThree.performed -= ctx => HandleCommandAction(ctx.ReadValue<float>(), 2);
         controls.Player.CommandThree.Disable();
 
-        controls.Player.CommandFour.performed -= ctx => HandleCommandAction(3);
+        controls.Player.CommandFour.performed -= ctx => HandleCommandAction(ctx.ReadValue<float>(), 3);
         controls.Player.CommandFour.Disable();
     }
     #region Input Handle Methods
@@ -111,9 +111,10 @@ public class PlayerController : MonoBehaviour
         necroInput.Interact();
     }
 
-    private void HandleCommandAction(int commandIndex)
+    private void HandleCommandAction(float input, int commandIndex)
     {
-        necroInput.MakeCommand(commandIndex, necroInput.mousePositionInput);
+        if(input > 0)
+            necroInput.MakeCommand(commandIndex, necroInput.mousePositionInput);
     }
     #endregion
 
@@ -121,11 +122,20 @@ public class PlayerController : MonoBehaviour
     {
         controls = new DIUInputs();
     }
+
+    private void FixedUpdate()
+    {
+        guide.UpdateGuides(necroInput.moveInput, necroInput.mousePositionInput);
+    }
     #endregion
     [SerializeField] private Camera mainCamera;
     private NecromancerInput necroInput;
+    private MoveGuide guide;
     private void Start()
     {
+        guide = GetComponent<MoveGuide>();
+        //TODO set value to match foot radius;
+        guide.SetupGuide(.3f);
         necroInput = GetComponent<NecromancerInput>();
         if (mainCamera == null)
             mainCamera = Camera.main;

@@ -21,6 +21,10 @@ public class BTAnimateMovement : BTNode
             anim = transform.GetComponentInChildren<Animator>();
             bodySprite = anim.GetComponent<SpriteRenderer>();
         }
+        else
+        {
+            Debug.LogError("BTAnimateMovement could not find Transform in the Blackboard on " + Tree.transform.name);
+        }
     }
 
     public override Result Execute()
@@ -36,7 +40,7 @@ public class BTAnimateMovement : BTNode
 
     private void UpdateAnim()
     {
-        anim.SetFloat("Move", aiPath.desiredVelocity.magnitude / aiPath.maxSpeed);
+        anim.SetFloat("Move", Mathf.InverseLerp(aiPath.endReachedDistance, aiPath.slowdownDistance, aiPath.remainingDistance));
         //Flip sprite if mouse is to the left of the character so the sprite faces the right way
         if (aiPath.desiredVelocity.x < -0.1)
         {

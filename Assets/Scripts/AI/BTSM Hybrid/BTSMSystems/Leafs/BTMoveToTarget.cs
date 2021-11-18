@@ -29,21 +29,12 @@ public class BTMoveToTarget : BTNode
 
     public override Result Execute()
     {
-        //if we've arrived at random position
-        if (path.reachedDestination)
-        {
-            return Result.Success;
-        }
+        if (path.canMove && path.canSearch && path.hasPath)
+            return Result.Running;
         else
         {
-            if (path.canMove && path.canSearch && path.hasPath)
-                return Result.Running;
-            else
-            {
-                Debug.Log("Cant find path");
-                return Result.Failure;
-            }
-
+            Debug.Log("Cant find path");
+            return Result.Failure;
         }
     }
 }

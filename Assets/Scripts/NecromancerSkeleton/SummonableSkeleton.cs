@@ -232,7 +232,7 @@ public class SummonableSkeleton : MonoBehaviour
         em.EquipTrinket(trinket);
 
 
-        MinionManager.settings.AddMinion(s.GetComponent<MinionController>());
+        MinionManager.manager.AddMinion(s.GetComponent<MinionController>());
     }
 
     private IEnumerator OpenSequence()

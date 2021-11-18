@@ -8,7 +8,7 @@ public class FollowPlayer_BT : BehaviorTree
     {
         base.StartTree(sm);
 
-        Blackboard.Add("PlayerTransform", MinionManager.settings.GetPlayer());
+        Blackboard.Add("FollowTransform", MinionManager.manager.GetPlayerMoveGuide());
         Blackboard.Add("DestinationSetter", GetComponent<Pathfinding.AIDestinationSetter>());
         Blackboard.Add("Path", GetComponent<Pathfinding.AIPath>());
         Blackboard.Add("Transform", transform);

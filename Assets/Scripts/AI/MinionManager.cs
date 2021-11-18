@@ -6,12 +6,12 @@ using UnityEngine;
 public class MinionManager : MonoBehaviour
 {
     #region Singleton
-    public static MinionManager settings;
+    public static MinionManager manager;
     private void Awake()
     {
-        if (settings == null)
+        if (manager == null)
         {
-            settings = this;
+            manager = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -20,12 +20,17 @@ public class MinionManager : MonoBehaviour
             return;
         }
         #endregion
-        necromancer = FindObjectOfType<NecromancerInput>().transform;
+        //necromancerPosGuide = FindObjectOfType<PlayerController>().GetComponent<MoveGuide>().movementGuide;
         activeMinions = FindObjectsOfType<MinionController>().ToList();
+
+        for (int i = 0; i < activeMinions.Count; i++)
+        {
+            activeMinions[i].minionIndex = i;
+        }
+
     }
-   
-    private Transform necromancer;
-    public enum MinionType { Melee, Ranged, Caster, Tank }
+
+    
 
     [SerializeField] private NecroticPowerUI powerBar;
     [SerializeField] private int maxPowerLevel;
@@ -36,49 +41,55 @@ public class MinionManager : MonoBehaviour
     [SerializeField] private GameObject movePrefab;
 
     private Transform movePoint;
+    private MoveGuide playerMoveGuide;
+
+    public Transform GetTarget()
+    {
+        return movePoint;
+    }
 
     private void Start()
     {
+        playerMoveGuide = FindObjectOfType<PlayerController>().GetComponent<MoveGuide>();
         powerLevel = maxPowerLevel;
         RefreshUI();
     }
 
-    public Transform GetPlayer()
+    public Transform GetPlayerMoveGuide()
     {
-        return necromancer;
+        return playerMoveGuide.coreGuide;
     }
 
     //TODO implement different groups of minions
     public void MoveHere(int commandIndex, Vector2 pos)
     {
-        if(movePoint == null)
+        if (movePoint == null)
         {
             movePoint = Instantiate(movePrefab).transform;
         }
-
-        LeanTween.move(movePoint.gameObject, pos, 1f);
-
+        movePoint.position = pos;
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].aiSystem.ChangeTree(new MoveToCommandPoint_BT(movePoint));
+            activeMinions[i].aiSystem.ChangeTree(new MoveToCommandPoint_BT().GetType());
         }
     }
 
     public void FollowPlayer()
     {
         movePoint.GetComponentInChildren<ParticleSystem>().Stop();
-        LeanTween.scale(movePoint.gameObject, Vector3.zero, 4f);
-        Destroy(movePoint.gameObject, 4f);
+        //LeanTween.scale(movePoint.gameObject, Vector3.zero, 4f);
+        Destroy(movePoint.gameObject);
 
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].aiSystem.ChangeTree(new FollowPlayer_BT());
+            activeMinions[i].aiSystem.ChangeTree(new FollowPlayer_BT().GetType());
         }
     }
 
     public void AddMinion(MinionController newMinion)
     {
         activeMinions.Add(newMinion);
+        playerMoveGuide.AddSubPoint();
     }
     public bool CheckSummonCost(int cost)
     {

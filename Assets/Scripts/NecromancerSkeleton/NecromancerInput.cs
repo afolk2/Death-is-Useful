@@ -22,7 +22,7 @@ public class NecromancerInput : MonoBehaviour
         movement = GetComponent<SkeletonMovement>();
         skeletonAim = GetComponent<SkeletonAim>();
         equipment = GetComponentInChildren<EquipmentManager>();
-        minionManager = MinionManager.settings;
+        minionManager = MinionManager.manager;
     }
 
     private void Update()
@@ -64,9 +64,6 @@ public class NecromancerInput : MonoBehaviour
             }
         }
     }
-
-   
-
     public void MakeCommand(int commandIndex, Vector2 mousePositionInput)
     {
         if (Vector2.Distance(mousePositionInput, transform.position) < 2)

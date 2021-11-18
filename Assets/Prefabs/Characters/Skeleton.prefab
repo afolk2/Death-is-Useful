@@ -311,12 +311,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 2
-  radius: 0.8
+  radius: 0.7
   height: 0.01
   repathRate: 0.5
   canSearch: 1
   canMove: 1
-  maxSpeed: 5
+  maxSpeed: 6
   gravity: {x: NaN, y: NaN, z: NaN}
   groundMask:
     serializedVersion: 2
@@ -329,7 +329,7 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 2
   pickNextWaypointDist: 1
-  endReachedDistance: 0.5
+  endReachedDistance: 1
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
