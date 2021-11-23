@@ -232,12 +232,12 @@ public class SummonableSkeleton : MonoBehaviour
         em.EquipTrinket(trinket);
 
 
-        MinionManager.settings.AddMinion(s.GetComponent<MinionController>());
+        MinionManager.manager.AddMinion(s.GetComponent<MinionController>());
     }
 
     private IEnumerator OpenSequence()
     {
-        LeanTween.cancelAll();
+        LeanTween.cancel(gameObject);
         scrollGroup.transform.localRotation = Quaternion.Euler(0, 0, 2);
         LeanTween.rotateZ(scrollGroup.gameObject, -2, 1f).setLoopPingPong();
 
@@ -272,7 +272,7 @@ public class SummonableSkeleton : MonoBehaviour
 
         summonParticles.Stop();
 
-        LeanTween.cancelAll();
+        LeanTween.cancel(gameObject);
 
         LeanTween.alphaCanvas(dataGroup, 0, exitTime / 2);
         LeanTween.moveLocalY(topRoll.gameObject, .1f, exitTime / 2).setEaseOutBounce();
