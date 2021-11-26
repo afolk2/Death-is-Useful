@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,10 +32,10 @@ public class MinionManager : MonoBehaviour
             activeMinions[i].minionIndex = i;
             playerMoveGuide.AddSubPoint();
         }
-
     }
 
-    
+
+    [Range(1, 100)] public int minionHP = 25;
 
     [SerializeField] private NecroticPowerUI powerBar;
     [SerializeField] private int maxPowerLevel;
@@ -81,9 +82,11 @@ public class MinionManager : MonoBehaviour
         movePoint.position = pos;
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].aiSystem.ChangeTree<MoveToCommandPoint_BT>();
+            activeMinions[i].aiSystem.ChangeTree<MinionMoveToCommandPoint_BT>();
         }
     }
+
+    
 
     public void FollowPlayer()
     {
@@ -93,7 +96,7 @@ public class MinionManager : MonoBehaviour
 
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].aiSystem.ChangeTree<FollowPlayer_BT>();
+            activeMinions[i].aiSystem.ChangeTree<MinionFollowPlayer_BT>();
         }
     }
 
@@ -103,6 +106,14 @@ public class MinionManager : MonoBehaviour
         activeMinions.Add(newMinion);
         playerMoveGuide.AddSubPoint();
     }
+    public void RemoveMinion(MinionController minionController)
+    {
+        activeMinions.Remove(minionController);
+        playerMoveGuide.RemoveSubPoint();
+
+        Destroy(minionController.gameObject);
+    }
+
     public bool CheckSummonCost(int cost)
     {
         return cost <= powerLevel;

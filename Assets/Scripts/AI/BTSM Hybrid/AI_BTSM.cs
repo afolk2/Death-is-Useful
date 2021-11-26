@@ -14,7 +14,7 @@ public class AI_BTSM : MonoBehaviour
     protected virtual void Start()
     {
         aiSystem = new BTFiniteStateMachine(this);
-        aiSystem.ChangeTree<FollowPlayer_BT>();
+        aiSystem.ChangeTree<MinionFollowPlayer_BT>();
     }
 
     // Update is called once per frame

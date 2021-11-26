@@ -5,7 +5,7 @@ public class MinionController : AI_BTSM
     protected override void Start()
     {
         aiSystem = new BTFiniteStateMachine(this);
-        aiSystem.ChangeTree<FollowPlayer_BT>();
+        aiSystem.ChangeTree<MinionFollowPlayer_BT>();
     }
 
     // Update is called once per frame

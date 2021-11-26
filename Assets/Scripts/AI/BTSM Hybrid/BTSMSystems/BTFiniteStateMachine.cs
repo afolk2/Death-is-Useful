@@ -7,6 +7,9 @@ using UnityEngine;
 public class BTFiniteStateMachine
 {
     AI_BTSM aiCore;
+
+    Type previousBT;
+
     public BTFiniteStateMachine(AI_BTSM core)
     {
         aiCore = core;

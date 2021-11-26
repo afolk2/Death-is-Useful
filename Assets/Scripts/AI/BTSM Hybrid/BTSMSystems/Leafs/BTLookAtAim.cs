@@ -5,8 +5,8 @@ using UnityEngine;
 public class BTLookAtAim : BTNode
 {
     NecromancerInput necorInput;
-    SkeletonAim aim;
-    private SpriteRenderer bodySprite;
+    AIAim aim;
+    SkeletonAnimation sAnim;
     Transform transform;
     public BTLookAtAim(BehaviorTree t) : base(t)
     {
@@ -28,8 +28,8 @@ public class BTLookAtAim : BTNode
         if (found)
         {
             transform = (Transform)o;
-            aim = transform.GetComponent<SkeletonAim>();
-            bodySprite = transform.GetComponentInChildren<Animator>().GetComponent<SpriteRenderer>();
+            aim = transform.GetComponent<AIAim>();
+            sAnim = transform.GetComponent<SkeletonAnimation>();
         }
         else
         {
@@ -39,16 +39,8 @@ public class BTLookAtAim : BTNode
 
     public override Result Execute()
     {
-        aim.DoAim(necorInput.mousePositionInput);
-
-        if (transform.position.x > necorInput.mousePositionInput.x)
-        {
-            bodySprite.flipX = true;
-        }
-        else
-        {
-            bodySprite.flipX = false;
-        }
+        aim.SetAimTarget(necorInput.mousePositionInput);
+        sAnim.AimAnim(necorInput.mousePositionInput);
         return Result.Running;
     }
 }

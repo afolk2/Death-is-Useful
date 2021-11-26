@@ -12,14 +12,14 @@ public class NecromancerInput : MonoBehaviour
     public Vector2 moveInput;
     public Vector2 mousePositionInput;
 
-    private SkeletonMovement movement;
+    private PlayerMovement movement;
     private SkeletonAim skeletonAim;
     private EquipmentManager equipment;
     private MinionManager minionManager;
     [SerializeField] LayerMask interactLayer;
     private void Start()
     {
-        movement = GetComponent<SkeletonMovement>();
+        movement = GetComponent<PlayerMovement>();
         skeletonAim = GetComponent<SkeletonAim>();
         equipment = GetComponentInChildren<EquipmentManager>();
         minionManager = MinionManager.manager;
@@ -28,7 +28,7 @@ public class NecromancerInput : MonoBehaviour
     private void Update()
     {
         movement.Move(moveInput);
-        skeletonAim.DoAim(mousePositionInput);
+        skeletonAim.SetAimTarget(mousePositionInput);
     }
 
     public void MainPress()

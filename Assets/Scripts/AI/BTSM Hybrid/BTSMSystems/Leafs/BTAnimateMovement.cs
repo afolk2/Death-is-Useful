@@ -3,10 +3,7 @@ using UnityEngine;
 
 public class BTAnimateMovement : BTNode
 {
-    private AIPath aiPath;
-    private SpriteRenderer bodySprite;
-    private Animator anim;
-    private Rigidbody2D rb;
+    SkeletonAnimation sAnim;
     public BTAnimateMovement(BehaviorTree t) : base(t)
     {
         object o;
@@ -14,12 +11,7 @@ public class BTAnimateMovement : BTNode
         if (found)
         {
             Transform transform = (Transform)o;
-
-            aiPath = transform.GetComponent<AIPath>();
-            rb = transform.GetComponent<Rigidbody2D>();
-
-            anim = transform.GetComponentInChildren<Animator>();
-            bodySprite = anim.GetComponent<SpriteRenderer>();
+            sAnim = transform.GetComponent<SkeletonAnimation>();
         }
         else
         {
@@ -29,7 +21,7 @@ public class BTAnimateMovement : BTNode
 
     public override Result Execute()
     {
-        if (bodySprite != null)
+        if (sAnim != null)
         {
             UpdateAnim();
             return Result.Running;
@@ -40,18 +32,20 @@ public class BTAnimateMovement : BTNode
 
     private void UpdateAnim()
     {
-        anim.SetFloat("Move", Mathf.InverseLerp(aiPath.endReachedDistance, aiPath.slowdownDistance, aiPath.remainingDistance));
-        //Flip sprite if mouse is to the left of the character so the sprite faces the right way
-        if (aiPath.desiredVelocity.x < -0.1)
-        {
-            bodySprite.flipX = true;
-        }
-        else if (aiPath.desiredVelocity.x > 0.1)
-        {
-            bodySprite.flipX = false;
-        }
+        sAnim.MoveAnim();
 
-        bodySprite.sortingOrder = Mathf.RoundToInt(rb.position.y * -1000);
-        //Set move animator float based on move input
+        //anim.SetFloat("Move", Mathf.InverseLerp(aiPath.endReachedDistance, aiPath.slowdownDistance, aiPath.remainingDistance));
+        ////Flip sprite if mouse is to the left of the character so the sprite faces the right way
+        //if (aiPath.desiredVelocity.x < -0.1)
+        //{
+        //    bodySprite.flipX = true;
+        //}
+        //else if (aiPath.desiredVelocity.x > 0.1)
+        //{
+        //    bodySprite.flipX = false;
+        //}
+
+        //bodySprite.sortingOrder = Mathf.RoundToInt(rb.position.y * -1000);
+        ////Set move animator float based on move input
     }
 }

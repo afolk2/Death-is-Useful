@@ -367,6 +367,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65737560387488124, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
+      propertyPath: testItem
+      value: 
+      objectReference: {fileID: 1268150148}
     - target: {fileID: 3807826488032810164, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_Name
       value: Skeleton
@@ -413,14 +417,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3807826488032810165, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6596680160913699984, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
-      propertyPath: alwaysDrawGizmos
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6596680160913699984, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
-      propertyPath: autoRepath.visualizeSensitivity
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8990,6 +8986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13411bc0d25174d49ba0db15b22aa4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minionHP: 50
   powerBar: {fileID: 487203467}
   maxPowerLevel: 25
   minimumFollowDistance: 0.5
@@ -14725,6 +14722,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65737560387488124, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
+      propertyPath: testItem
+      value: 
+      objectReference: {fileID: 1268150148}
     - target: {fileID: 3807826488032810164, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_Name
       value: Skeleton (3)
@@ -15075,6 +15076,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65737560387488124, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
+      propertyPath: testItem
+      value: 
+      objectReference: {fileID: 187070873645825540}
+    - target: {fileID: 2116490891655812482, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3807826488032810164, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_Name
       value: Skeleton (1)
@@ -15369,10 +15378,6 @@ PrefabInstance:
       propertyPath: subGuideRot
       value: 120
       objectReference: {fileID: 0}
-    - target: {fileID: 1822055043089754221, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
-      propertyPath: subGuideSpacing
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3528524008490343616, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_Layer
       value: 13
@@ -15429,6 +15434,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Necromancer
       objectReference: {fileID: 0}
+    - target: {fileID: 6197578790598855434, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
+      propertyPath: m_Radius
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 7989046547505309543, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: m_Layer
       value: 13
@@ -15444,7 +15453,7 @@ PrefabInstance:
     - target: {fileID: 8919269597991334938, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
       propertyPath: testItem
       value: 
-      objectReference: {fileID: 187070873645825540}
+      objectReference: {fileID: 1268150148}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f5562a71aa94f24ca52c3783fb8aef3, type: 3}
 --- !u!1 &1592304884
@@ -39228,6 +39237,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 65737560387488124, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
+      propertyPath: testItem
+      value: 
+      objectReference: {fileID: 1268150148}
     - target: {fileID: 3807826488032810164, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
       propertyPath: m_Name
       value: Skeleton (2)

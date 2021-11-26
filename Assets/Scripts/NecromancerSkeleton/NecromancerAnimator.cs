@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 /// <summary>
 /// Manage Skeleton Animator based on variables from other scripts.
 /// </summary>
@@ -10,7 +7,6 @@ public class NecromancerAnimator : MonoBehaviour
     private Animator bodyAnim;
     private SpriteRenderer bodySprite;
     private NecromancerInput input;
-
     void Start()
     {
         input = GetComponent<NecromancerInput>();

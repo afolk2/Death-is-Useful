@@ -356,12 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5eb89bcecec8714ea2c1746908bfddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  guideOffsetMax: 1.5
+  guideOffsetMax: 1
   guideMask:
     serializedVersion: 2
     m_Bits: 1024
-  movementGuide: {fileID: 0}
-  subGuideSpacing: 2
+  coreGuide: {fileID: 0}
+  subGuideSpacing: 1.5
+  subGuideRot: 15
 --- !u!50 &6849851932602787637
 Rigidbody2D:
   serializedVersion: 4
@@ -1106,7 +1107,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 8475250191705802286}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 05224efd15476b641a941dd555813bfb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
