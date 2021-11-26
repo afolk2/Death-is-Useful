@@ -22,10 +22,14 @@ public class MinionManager : MonoBehaviour
         #endregion
         //necromancerPosGuide = FindObjectOfType<PlayerController>().GetComponent<MoveGuide>().movementGuide;
         activeMinions = FindObjectsOfType<MinionController>().ToList();
+        playerMoveGuide = FindObjectOfType<PlayerController>().GetComponent<MoveGuide>();
+
+        playerMoveGuide.SetupGuide(.3f);
 
         for (int i = 0; i < activeMinions.Count; i++)
         {
             activeMinions[i].minionIndex = i;
+            playerMoveGuide.AddSubPoint();
         }
 
     }
@@ -50,14 +54,21 @@ public class MinionManager : MonoBehaviour
 
     private void Start()
     {
-        playerMoveGuide = FindObjectOfType<PlayerController>().GetComponent<MoveGuide>();
         powerLevel = maxPowerLevel;
         RefreshUI();
     }
 
-    public Transform GetPlayerMoveGuide()
+    public Transform GetPlayerCoreMoveGuide()
     {
         return playerMoveGuide.coreGuide;
+    }
+
+    public Transform GetPlayerSubMoveGuide(int index)
+    {
+        if (index < playerMoveGuide.coreGuide.childCount)
+            return playerMoveGuide.GetSubGuide(index);
+        else
+            return null;
     }
 
     //TODO implement different groups of minions
@@ -70,7 +81,7 @@ public class MinionManager : MonoBehaviour
         movePoint.position = pos;
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].aiSystem.ChangeTree(new MoveToCommandPoint_BT().GetType());
+            activeMinions[i].aiSystem.ChangeTree<MoveToCommandPoint_BT>();
         }
     }
 
@@ -82,12 +93,13 @@ public class MinionManager : MonoBehaviour
 
         for (int i = 0; i < activeMinions.Count; i++)
         {
-            activeMinions[i].aiSystem.ChangeTree(new FollowPlayer_BT().GetType());
+            activeMinions[i].aiSystem.ChangeTree<FollowPlayer_BT>();
         }
     }
 
     public void AddMinion(MinionController newMinion)
     {
+        newMinion.minionIndex = activeMinions.Count;
         activeMinions.Add(newMinion);
         playerMoveGuide.AddSubPoint();
     }

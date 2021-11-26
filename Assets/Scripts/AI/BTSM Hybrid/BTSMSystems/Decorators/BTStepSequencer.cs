@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BTSequencer : BTComposite
+/// <summary>
+/// Sequencer but requires Success to move onto next child node
+/// </summary>
+public class BTStepSequencer : BTSequencer
 {
-    protected int currentNode = 0;
-    public BTSequencer(BehaviorTree t, BTNode[] children) : base(t, children)
+    public BTStepSequencer(BehaviorTree t, BTNode[] children) : base(t, children)
     {
-
     }
 
     public override Result Execute()
@@ -18,10 +19,6 @@ public class BTSequencer : BTComposite
 
             if (result == Result.Success)
             {
-                return Result.Running;
-            }
-            else
-            {
                 currentNode++;
                 if (currentNode < Children.Count)
                     return Result.Running;
@@ -31,6 +28,8 @@ public class BTSequencer : BTComposite
                     return Result.Success;
                 }
             }
+            else
+                return Result.Failure;
         }
 
         return Result.Success;

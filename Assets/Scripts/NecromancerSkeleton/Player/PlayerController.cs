@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
     {
         guide = GetComponent<MoveGuide>();
         //TODO set value to match foot radius;
-        guide.SetupGuide(.3f);
+        
         necroInput = GetComponent<NecromancerInput>();
         if (mainCamera == null)
             mainCamera = Camera.main;

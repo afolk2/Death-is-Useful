@@ -36,7 +36,7 @@ public abstract class BehaviorTree : MonoBehaviour
     public virtual void ExitTree()
     {
         Debug.Log("Exiting Tree to null");
-        stateMachine.ChangeTree(null);
+        stateMachine.ClearTree();
     }
 
     /// <summary>

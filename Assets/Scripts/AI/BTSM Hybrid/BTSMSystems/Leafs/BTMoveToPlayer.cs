@@ -25,7 +25,7 @@ public class BTMoveToPlayer : BTNode
         else
         {
             Debug.LogWarning(Tree.transform.name + "Could not access player position, manually getting from singleton (FIX ME)");
-            Destination = MinionManager.manager.GetPlayerMoveGuide();
+            Destination = MinionManager.manager.GetPlayerCoreMoveGuide();
         }
 
         //GET AIDESTINATIONSETTER AND AIPATH
@@ -46,11 +46,8 @@ public class BTMoveToPlayer : BTNode
 
     public override Result Execute()
     {
-        //if we've arrived at random position
-        if (path.remainingDistance < minDistance)
-        {
+        if (path.reachedDestination)
             return Result.Success;
-        }
         else
         {
             if (path.canMove && path.canSearch && Destination != null)

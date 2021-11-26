@@ -132,8 +132,7 @@ public class MoveGuide : MonoBehaviour
 
     private void AttemptSubGuidePlacement(int subIndex, Vector3 pos)
     {
-        Vector2 posDir = (pos - coreGuide.position).normalized;
-        RaycastHit2D hit = Physics2D.CircleCast(coreGuide.position, characterRadius, posDir, pos.magnitude, guideMask);
+        RaycastHit2D hit = Physics2D.Raycast(coreGuide.position, pos.normalized, pos.magnitude, guideMask);
         if (hit.collider == null)
         {
             subGuide[subIndex].localPosition = pos;
@@ -142,6 +141,11 @@ public class MoveGuide : MonoBehaviour
         {
             subGuide[subIndex].position = hit.point;
         }
+    }
+
+    public Transform GetSubGuide(int index)
+    {
+        return subGuide[index];
     }
 
     public void AddSubPoint()

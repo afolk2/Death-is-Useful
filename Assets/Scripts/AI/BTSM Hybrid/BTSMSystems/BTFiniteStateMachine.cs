@@ -11,9 +11,15 @@ public class BTFiniteStateMachine
     {
         aiCore = core;
     }
+
+    public void ChangeTree<T>()
+    {
+        SwitchTree(typeof(T));
+    }
+
     public BehaviorTree activeTree;
 
-    public void ChangeTree(Type tree)
+    private void SwitchTree(Type tree)
     {
         if (tree != null)
         {
@@ -39,6 +45,11 @@ public class BTFiniteStateMachine
         {
             aiCore.RemoveTree(activeTree);
         }
+    }
+
+    public void ClearTree()
+    {
+        aiCore.RemoveTree(activeTree);
     }
 
     public void UpdateTree()
