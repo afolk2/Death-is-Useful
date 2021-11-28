@@ -1409,6 +1409,7 @@ GameObject:
   - component: {fileID: 1427959337864800100}
   - component: {fileID: 7021869678318531004}
   - component: {fileID: 4852939968997922461}
+  - component: {fileID: 2778727978409595536}
   m_Layer: 7
   m_Name: MinionUI
   m_TagString: Untagged
@@ -1457,6 +1458,18 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &2778727978409595536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8697813500551077697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4793bfba534d644889d24fe9609c677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9172056829430457873
 GameObject:
   m_ObjectHideFlags: 0
