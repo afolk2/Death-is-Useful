@@ -50,7 +50,7 @@ public class BTMoveToRandomRoomPoint : BTNode
             dest.position = Random.insideUnitCircle * 11f;
             Debug.DrawLine(dest.position, dest.position + Vector3.right * 3f, Color.green, 1f);
         }
-        while (Physics2D.OverlapCircle(dest.position, 2f) || attempts > 50f);
+        while (Physics2D.OverlapCircle(dest.position, 1f) || attempts > 50f);
     }
 
     public override Result Execute()
