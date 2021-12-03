@@ -8,12 +8,8 @@ public class BTMoveToPlayer : BTNode
     private AIDestinationSetter destSetter;
     private AIPath path;
     protected Transform Destination { get; set; }
-    public float speed;
-    private float minDistance;
     public BTMoveToPlayer(BehaviorTree t) : base(t)
     {
-        minDistance = MinionManager.manager.minimumFollowDistance;
-
         //GET PLAYER TRANSFORM
         object o;
         bool found = Tree.Blackboard.TryGetValue("FollowTransform", out o);

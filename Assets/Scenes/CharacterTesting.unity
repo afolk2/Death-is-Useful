@@ -15150,6 +15150,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8294ceebbf1d3e24b91f9fe72301e0c6, type: 3}
+--- !u!1 &1222559613 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6617036165082130635, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+  m_PrefabInstance: {fileID: 2039509155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1222559614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222559613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f44bcb443d35fbe49b2c5ef83e3b4a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1265428013
 GameObject:
   m_ObjectHideFlags: 0
@@ -39316,11 +39333,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6617036164033519429, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
       propertyPath: m_Size.x
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 6617036164033519429, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
       propertyPath: m_Size.y
-      value: 0.6
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6617036165082130635, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
       propertyPath: m_Name
@@ -39329,6 +39346,30 @@ PrefabInstance:
     - target: {fileID: 6617036165082130635, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617036165082130639, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+      propertyPath: radius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617036165082130639, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+      propertyPath: slowdownDistance
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617036165082130639, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+      propertyPath: endReachedDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617036165082130639, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+      propertyPath: pickNextWaypointDist
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617036165082130639, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+      propertyPath: autoRepath.sensitivity
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617036165082130639, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
+      propertyPath: autoRepath.maximumInterval
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6617036165082130641, guid: 84e5f7e9dbea9414a857b8779284331e, type: 3}
       propertyPath: m_RootOrder

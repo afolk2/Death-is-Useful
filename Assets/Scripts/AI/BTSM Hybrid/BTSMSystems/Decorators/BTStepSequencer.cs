@@ -29,7 +29,7 @@ public class BTStepSequencer : BTSequencer
                 }
             }
             else
-                return Result.Failure;
+                return result;
         }
 
         return Result.Success;
